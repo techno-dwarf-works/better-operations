@@ -1,0 +1,22 @@
+{
+  "name": "com.tdw.better.operations",
+  "displayName": "Better Operations",
+  "version": "0.0.1",
+  "unity": "2022.3",
+  "description": " ",
+  "dependencies": {
+    "com.tdw.better.internal.core": "0.0.2"
+  },
+  "author": {
+    "name": "Better Plugins",
+    "url": "https://github.com/techno-dwarf-works"
+  },
+  "changelogUrl": "https://github.com/techno-dwarf-works/better-operations",
+  "documentationUrl": "https://github.com/techno-dwarf-works/better-operations/tree/main#readme",
+  "license": "MIT",
+  "licensesUrl":"https://github.com/techno-dwarf-works/better-operations/blob/main/LICENSE",
+  "keywords": [
+    "Operations",
+    "Pattern",
+  ]
+}
