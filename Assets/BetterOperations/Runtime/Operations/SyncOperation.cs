@@ -14,7 +14,7 @@ namespace Better.Operations.Runtime
         }
     }
 
-    public class SyncOperation<TMember> : SyncOperation<SyncOperationBuffer<TMember>, SyncBufferAdapter<TMember>, TMember>
+    public class SyncOperation<TMember> : SyncOperation<SyncOperationBuffer<TMember>, SyncBufferAdapter<SyncOperationBuffer<TMember>, TMember>, TMember>
         where TMember : IOperationMember
     {
         public void Run()

@@ -15,5 +15,10 @@ namespace Better.Operations.Runtime
         where TValue : struct
         where TMember : IOperationMember
     {
+        public void Run(TValue sourceValue)
+        {
+            var buffer = new ValueSyncOperationBuffer<TValue, TMember>(Members, sourceValue);
+            Run(buffer);
+        }
     }
 }

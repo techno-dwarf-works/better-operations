@@ -9,8 +9,8 @@ namespace Better.Operations.Runtime.Stages
         public abstract void Run(OperationBuffer<TMember> buffer);
     }
 
-    // public abstract class SyncOperationStage<TMember> : SyncOperationStage<SyncOperationBuffer<TMember>, TMember>
-    //     where TMember : IOperationMember
-    // {
-    // }
+    public abstract class SyncOperationStage<TMember> : SyncOperationStage<SyncOperationBuffer<TMember>, TMember>
+        where TMember : IOperationMember
+    {
+    }
 }

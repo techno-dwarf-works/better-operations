@@ -39,8 +39,8 @@ namespace Better.Operations.Runtime.Builders
         {
             OnPreBuild();
 
-            var operation = new TOperation();
             var adaptersArray = _adapters.ToArray();
+            var operation = new TOperation();
             operation.SetupAdapters(adaptersArray);
 
             // TODO: Lock mutable
@@ -58,11 +58,10 @@ namespace Better.Operations.Runtime.Builders
         }
     }
 
-    // TODO
-    // public abstract class OperationBuilder<TOperation, TAdapter, TMember> : OperationBuilder<TOperation, OperationBuffer<TMember>, TAdapter, TMember>
-    //     where TOperation : Operation<OperationBuffer<TMember>, TAdapter, TMember>, new()
-    //     where TAdapter : BufferStageAdapter<OperationBuffer<TMember>, TMember>
-    //     where TMember : IOperationMember
-    // {
-    // }
+    public abstract class OperationBuilder<TOperation, TAdapter, TMember> : OperationBuilder<TOperation, OperationBuffer<TMember>, TAdapter, TMember>
+        where TOperation : Operation<OperationBuffer<TMember>, TAdapter, TMember>, new()
+        where TAdapter : BufferStageAdapter<OperationBuffer<TMember>, TMember>
+        where TMember : IOperationMember
+    {
+    }
 }
