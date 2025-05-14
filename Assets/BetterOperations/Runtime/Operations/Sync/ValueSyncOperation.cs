@@ -4,15 +4,22 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime
 {
-    public abstract class ValueSyncOperation<TBuffer, TValue, TAdapter, TMember> : SyncOperation<TBuffer, TAdapter, TMember>
+    public abstract class ValueSyncOperation<TBuffer, TAdapter, TValue, TMember> : SyncOperation<TBuffer, TAdapter, TMember>
         where TBuffer : ValueSyncBuffer<TValue, TMember>
-        where TValue : struct
         where TAdapter : SyncAdapter<TBuffer, TMember>
+        where TValue : struct
         where TMember : IOperationMember
     {
     }
 
-    public class ValueSyncOperation<TValue, TMember> : ValueSyncOperation<ValueSyncBuffer<TValue, TMember>, TValue, SyncAdapter<ValueSyncBuffer<TValue, TMember>, TMember>, TMember>
+    public abstract class ValueSyncOperation<TBuffer, TValue, TMember> : ValueSyncOperation<TBuffer, SyncAdapter<TBuffer, TMember>, TValue, TMember>
+        where TBuffer : ValueSyncBuffer<TValue, TMember>
+        where TValue : struct
+        where TMember : IOperationMember
+    {
+    }
+
+    public class ValueSyncOperation<TValue, TMember> : ValueSyncOperation<ValueSyncBuffer<TValue, TMember>, TValue, TMember>
         where TValue : struct
         where TMember : IOperationMember
     {
