@@ -2,9 +2,8 @@
 
 namespace Better.Operations.Runtime.Stages
 {
-    public abstract class OperationStage<TBuffer, TMember>
-        where TBuffer : OperationBuffer<TMember>
-        where TMember : IOperationMember
+    public abstract class OperationStage<TBuffer>
+        where TBuffer : OperationBuffer
     {
     }
 }

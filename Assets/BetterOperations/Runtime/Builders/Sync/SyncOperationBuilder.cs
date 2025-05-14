@@ -1,31 +1,36 @@
 ﻿using System;
+using System.Linq;
 using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Members;
+using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Stages;
 
 namespace Better.Operations.Runtime.Builders
 {
-    public abstract class SyncOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember> : OperationBuilder<TOperation, TBuffer, TAdapter, TMember>
-        where TBuilder : SyncOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember>
-        where TOperation : SyncOperation<TBuffer, TAdapter, TMember>, new()
-        where TBuffer : SyncOperationBuffer<TMember>
-        where TAdapter : SyncBufferAdapter<TBuffer, TMember>
+    public abstract class SyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember> : MemberedOperationBuilder<TBuilder, TOperation, TBuffer, SyncAdapter<TBuffer, TMember>, TMember>
+        where TBuilder : SyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember>
+        where TOperation : SyncOperation<TBuffer, SyncAdapter<TBuffer, TMember>, TMember>, new()
+        where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public TBuilder AppendNotify(Action action)
-        {
-            //GetOrAdd;
-            var notifyStage = new NotifySyncOperationStage<TMember>();
-            // var adapter = new DerivedSyncAdapter<TBuffer, TMember>(notifyStage);
-
-            notifyStage.Register(action);
-            // AppendAdapter(adapter);
-
-            return (TBuilder)this;
-        }
+        // protected TBuilder InsertCallback(int index, Action action)
+        // {
+        //     var joinIndex = index - 1;
+        //     var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
+        //     if (adapter?.Stage is not CallbackSyncStage<TBuffer, TMember> callbackSyncStage)
+        //     {
+        //         callbackSyncStage = new();
+        //         adapter = new DerivedSyncAdapter<TBuffer, TMember>(callbackSyncStage);
+        //         Adapters.Insert(index, adapter);
+        //     }
+        //
+        //     callbackSyncStage.Register(action);
+        //     return (TBuilder)this;
+        // }
     }
 
-    public class SyncOperationBuilder<TBuilder, TMember> : SyncOperationBuilder<TBuilder, SyncOperation<TMember>, SyncOperationBuffer<TMember>, SyncBufferAdapter<SyncOperationBuffer<TMember>, TMember>, TMember>
+    public class SyncOperationBuilder<TBuilder, TMember> : SyncOperationBuilder<TBuilder, SyncOperation<TMember>, SyncBuffer<TMember>, TMember>
         where TBuilder : SyncOperationBuilder<TBuilder, TMember>
         where TMember : IOperationMember
     {

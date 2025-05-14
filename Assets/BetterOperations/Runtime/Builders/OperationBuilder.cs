@@ -1,49 +1,41 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Stages;
+using UnityEngine;
 
 namespace Better.Operations.Runtime.Builders
 {
-    public abstract class OperationBuilder<TOperation, TBuffer, TAdapter, TMember>
-        where TOperation : Operation<TBuffer, TAdapter, TMember>, new()
-        where TBuffer : OperationBuffer<TMember>
-        where TAdapter : BufferStageAdapter<TBuffer, TMember>
-        where TMember : IOperationMember
+    public abstract class OperationBuilder<TBuilder, TOperation, TBuffer, TAdapter>
+        where TBuilder : OperationBuilder<TBuilder, TOperation, TBuffer, TAdapter>
+        where TOperation : Operation<TBuffer, TAdapter>, new()
+        where TBuffer : OperationBuffer
+        where TAdapter : BufferStageAdapter<TBuffer>
     {
-        private List<TAdapter> _adapters;
-        protected IReadOnlyCollection<BufferStageAdapter<TBuffer, TMember>> Adapters => _adapters;
+        protected List<TAdapter> Adapters { get; private set; }
+        public bool IsMutable { get; private set; }
 
         protected OperationBuilder()
         {
-            _adapters = new();
-        }
-
-        protected void InsertAdapter(int index, TAdapter adapter)
-        {
-            _adapters.Insert(index, adapter);
-        }
-
-        protected void PrependAdapter(TAdapter adapter)
-        {
-            var index = 0;
-            InsertAdapter(index, adapter);
-        }
-
-        protected void AppendAdapter(TAdapter adapter)
-        {
-            var index = _adapters.Count;
-            InsertAdapter(index, adapter);
+            Adapters = new();
+            IsMutable = true;
         }
 
         public TOperation Build()
         {
+            if (!ValidateMutable(true, false))
+            {
+                var immutableMessage = "Cannot build, already immutable";
+                throw new InvalidOperationException(immutableMessage);
+            }
+
             OnPreBuild();
 
-            var adaptersArray = _adapters.ToArray();
             var operation = new TOperation();
+            var adaptersArray = Adapters.ToArray();
             operation.SetupAdapters(adaptersArray);
-
-            // TODO: Lock mutable
 
             OnBuilt(operation);
             return operation;
@@ -55,13 +47,28 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual void OnBuilt(TOperation operation)
         {
+            Adapters.Clear();
+            IsMutable = false;
+        }
+
+        protected bool ValidateMutable(bool targetState, bool logError = true)
+        {
+            var isValid = IsMutable == targetState;
+            if (!isValid && logError)
+            {
+                var reason = targetState ? "must be mutable" : "must be immutable";
+                var message = "Not valid, " + reason;
+                Debug.LogError(message);
+            }
+
+            return isValid;
         }
     }
 
-    public abstract class OperationBuilder<TOperation, TAdapter, TMember> : OperationBuilder<TOperation, OperationBuffer<TMember>, TAdapter, TMember>
-        where TOperation : Operation<OperationBuffer<TMember>, TAdapter, TMember>, new()
-        where TAdapter : BufferStageAdapter<OperationBuffer<TMember>, TMember>
-        where TMember : IOperationMember
+    public abstract class OperationBuilder<TBuilder, TOperation, TAdapter> : OperationBuilder<TBuilder, TOperation, OperationBuffer, TAdapter>
+        where TBuilder : OperationBuilder<TBuilder, TOperation, TAdapter>
+        where TOperation : Operation<OperationBuffer, TAdapter>, new()
+        where TAdapter : BufferStageAdapter<OperationBuffer>
     {
     }
 }

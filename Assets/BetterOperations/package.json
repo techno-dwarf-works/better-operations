@@ -5,7 +5,8 @@
   "unity": "2022.3",
   "description": " ",
   "dependencies": {
-    "com.tdw.better.internal.core": "0.0.2"
+    "com.tdw.better.internal.core": "0.0.2",
+    "com.tdw.better.commons": "0.0.70"
   },
   "author": {
     "name": "Better Plugins",
@@ -17,6 +18,6 @@
   "licensesUrl":"https://github.com/techno-dwarf-works/better-operations/blob/main/LICENSE",
   "keywords": [
     "Operations",
-    "Pattern",
+    "Pattern"
   ]
 }
