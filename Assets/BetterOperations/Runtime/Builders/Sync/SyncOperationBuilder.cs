@@ -5,7 +5,7 @@ using Better.Operations.Runtime.Members;
 namespace Better.Operations.Runtime.Builders
 {
     public abstract class SyncOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember> : MemberedOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember>
-        where TBuilder : SyncOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember>
+        where TBuilder : SyncOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember>, new()
         where TOperation : SyncOperation<TBuffer, TAdapter, TMember>, new()
         where TBuffer : SyncBuffer<TMember>
         where TAdapter : SyncAdapter<TBuffer, TMember>
@@ -28,7 +28,7 @@ namespace Better.Operations.Runtime.Builders
     }
 
     public abstract class SyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember> : MemberedOperationBuilder<TBuilder, TOperation, TBuffer, SyncAdapter<TBuffer, TMember>, TMember>
-        where TBuilder : SyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember>
+        where TBuilder : SyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember>, new()
         where TOperation : SyncOperation<TBuffer, SyncAdapter<TBuffer, TMember>, TMember>, new()
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
@@ -36,7 +36,7 @@ namespace Better.Operations.Runtime.Builders
     }
 
     public class SyncOperationBuilder<TBuilder, TMember> : SyncOperationBuilder<TBuilder, SyncOperation<TMember>, SyncBuffer<TMember>, TMember>
-        where TBuilder : SyncOperationBuilder<TBuilder, TMember>
+        where TBuilder : SyncOperationBuilder<TBuilder, TMember>, new()
         where TMember : IOperationMember
     {
     }

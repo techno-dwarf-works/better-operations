@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
-using Better.Operations.Runtime.Stages;
 using UnityEngine;
 
 namespace Better.Operations.Runtime.Builders
 {
     public abstract class OperationBuilder<TBuilder, TOperation, TBuffer, TAdapter>
-        where TBuilder : OperationBuilder<TBuilder, TOperation, TBuffer, TAdapter>
+        where TBuilder : OperationBuilder<TBuilder, TOperation, TBuffer, TAdapter>, new()
         where TOperation : Operation<TBuffer, TAdapter>, new()
         where TBuffer : OperationBuffer
         where TAdapter : BufferStageAdapter<TBuffer>
@@ -63,10 +61,15 @@ namespace Better.Operations.Runtime.Builders
 
             return isValid;
         }
+
+        public static TBuilder Create()
+        {
+            return new TBuilder();
+        }
     }
 
     public abstract class OperationBuilder<TBuilder, TOperation, TAdapter> : OperationBuilder<TBuilder, TOperation, OperationBuffer, TAdapter>
-        where TBuilder : OperationBuilder<TBuilder, TOperation, TAdapter>
+        where TBuilder : OperationBuilder<TBuilder, TOperation, TAdapter>, new()
         where TOperation : Operation<OperationBuffer, TAdapter>, new()
         where TAdapter : BufferStageAdapter<OperationBuffer>
     {
