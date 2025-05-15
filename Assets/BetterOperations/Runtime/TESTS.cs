@@ -43,6 +43,11 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
             registry.Register(crouchModif);
         }
 
+        public void DoJump()
+        {
+            _jumpOperation.Run();
+        }
+
         bool IOperationMemberRegistry<IOperationModifier>.Register(IOperationModifier member)
         {
             _jumpOperation.TryRegister(member);

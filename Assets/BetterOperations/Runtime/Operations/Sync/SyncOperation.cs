@@ -12,6 +12,7 @@ namespace Better.Operations.Runtime
         protected void Run(TBuffer buffer)
         {
             // IMPL
+            // TODO: Cancel
         }
     }
 

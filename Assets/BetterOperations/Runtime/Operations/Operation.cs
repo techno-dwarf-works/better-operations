@@ -7,11 +7,23 @@ namespace Better.Operations.Runtime
         where TBuffer : OperationBuffer
         where TAdapter : BufferStageAdapter<TBuffer>
     {
+        // TODO: Cancel
+
         private TAdapter[] _adapters;
 
         internal void SetupAdapters(TAdapter[] adapters)
         {
             _adapters = adapters;
         }
+
+        // protected void Schedule(TBuffer buffer)
+        // {
+        //     OnScheduled(buffer);
+        // }
+        
+        // protected virtual void OnScheduled(TBuffer buffer)
+        // {
+        //     throw new System.NotImplementedException();
+        // }
     }
 }

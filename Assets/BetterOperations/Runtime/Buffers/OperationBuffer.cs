@@ -2,5 +2,8 @@
 {
     public class OperationBuffer
     {
+        public OperationBuffer()
+        {
+        }
     }
 }

@@ -23,10 +23,12 @@ namespace Better.Operations.Runtime
         where TValue : struct
         where TMember : IOperationMember
     {
-        public void Run(TValue sourceValue)
+        public TValue Run(TValue sourceValue)
         {
             var buffer = new ValueSyncBuffer<TValue, TMember>(Members, sourceValue);
             Run(buffer);
+
+            return buffer.ModifiedValue;
         }
     }
 }
