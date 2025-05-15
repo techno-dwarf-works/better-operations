@@ -37,24 +37,24 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
                 .Build();
 
             var jumpModif = new JumpModif();
-            Register(jumpModif);
-
             var crouchModif = new CrouchModif();
-            Register(crouchModif);
+            var registry = (IOperationMemberRegistry<IOperationModifier>)this;
+            registry.Register(jumpModif);
+            registry.Register(crouchModif);
         }
 
-        public bool Register(IOperationModifier member)
+        bool IOperationMemberRegistry<IOperationModifier>.Register(IOperationModifier member)
         {
-            _jumpOperation.Register(member);
+            _jumpOperation.TryRegister(member);
             return _members.Add(member);
         }
 
-        public bool IsRegistered(IOperationModifier member)
+        bool IOperationMemberRegistry<IOperationModifier>.IsRegistered(IOperationModifier member)
         {
             return _members.Contains(member);
         }
 
-        public bool Unregister(IOperationModifier member)
+        bool IOperationMemberRegistry<IOperationModifier>.Unregister(IOperationModifier member)
         {
             _jumpOperation.Unregister(member);
             return _members.Remove(member);
