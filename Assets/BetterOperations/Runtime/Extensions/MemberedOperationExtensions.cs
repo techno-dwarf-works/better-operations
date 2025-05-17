@@ -4,7 +4,7 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Extensions
 {
-    public static class MemberedOperationExtension
+    public static class MemberedOperationExtensions
     {
         public static bool TryRegister<TBuffer, TAdapter, TMember>(this MemberedOperation<TBuffer, TAdapter, TMember> self, IOperationMember member)
             where TBuffer : MemberedBuffer<TMember>

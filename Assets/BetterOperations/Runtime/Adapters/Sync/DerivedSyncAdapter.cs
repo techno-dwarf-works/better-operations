@@ -14,7 +14,7 @@ namespace Better.Operations.Runtime.Adapters
 
         public override TBuffer Run(TBuffer buffer)
         {
-            return RelativeStage.Run(buffer);
+            return RelativeStage.Execute(buffer);
         }
     }
 }

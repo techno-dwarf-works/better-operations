@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Stages
@@ -8,6 +9,8 @@ namespace Better.Operations.Runtime.Stages
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public abstract Task<TBuffer> RunAsync(TBuffer buffer);
+        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.WhenAllGood;
+
+        public abstract Task<TBuffer> ExecuteAsync(TBuffer buffer);
     }
 }

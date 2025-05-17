@@ -1,4 +1,5 @@
 ﻿using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Stages
@@ -7,6 +8,8 @@ namespace Better.Operations.Runtime.Stages
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public abstract TBuffer Run(TBuffer buffer);
+        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.WhenAllGood;
+
+        public abstract TBuffer Execute(TBuffer buffer);
     }
 }

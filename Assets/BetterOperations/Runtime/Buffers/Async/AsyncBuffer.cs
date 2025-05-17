@@ -10,7 +10,7 @@ namespace Better.Operations.Runtime.Buffers
         private CancellationTokenSource _cancellationTokenSource;
 
         public CancellationToken CancellationToken => _cancellationTokenSource.Token;
-        public override bool IsCancellationRequested => _cancellationTokenSource.IsCancellationRequested;
+        public bool IsCancellationRequested => _cancellationTokenSource.IsCancellationRequested;
 
         public AsyncBuffer(IEnumerable<TMember> members, CancellationToken cancellationToken)
             : base(members)
@@ -18,7 +18,7 @@ namespace Better.Operations.Runtime.Buffers
             _cancellationTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
         }
 
-        public override void Cancel()
+        public virtual void Cancel()
         {
             _cancellationTokenSource.Cancel();
         }

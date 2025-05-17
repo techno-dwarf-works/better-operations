@@ -6,16 +6,15 @@ namespace Better.Operations.Runtime.Buffers
     public class SyncBuffer<TMember> : MemberedBuffer<TMember>
         where TMember : IOperationMember
     {
-        private bool _isCancellationRequested;
-        public override bool IsCancellationRequested => _isCancellationRequested;
+        public bool IsCancellationRequested { get; private set; }
 
         public SyncBuffer(IEnumerable<TMember> members) : base(members)
         {
         }
 
-        public override void Cancel()
+        public virtual void Cancel()
         {
-            _isCancellationRequested = true;
+            IsCancellationRequested = true;
         }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
 using Better.Operations.Runtime.Builders;
 using Better.Operations.Runtime.Extensions;
+using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
+using Better.Operations.Runtime.Permissions;
 
 namespace Better.Operations.Runtime.BetterOperations.Runtime
 {
@@ -46,6 +48,11 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
         public void DoJump()
         {
             _jumpOperation.ExecuteAsync(default, default);
+
+            var maxAllowPermission = PermissionFlag.Create(PermissionValues.MaxAllow);
+            var minAllowPermission = PermissionFlag.Create(PermissionValues.MinAllow);
+
+            var isSome = maxAllowPermission > minAllowPermission;
         }
 
         bool IOperationMemberRegistry<IOperationModifier>.Register(IOperationModifier member)
