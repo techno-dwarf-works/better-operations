@@ -9,7 +9,7 @@ namespace Better.Operations.Runtime.Adapters
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public abstract Task RunAsync(TBuffer buffer);
+        public abstract Task<TBuffer> RunAsync(TBuffer buffer);
     }
 
     public abstract class AsyncAdapter<TBuffer, TStage, TMember> : AsyncAdapter<TBuffer, TMember>

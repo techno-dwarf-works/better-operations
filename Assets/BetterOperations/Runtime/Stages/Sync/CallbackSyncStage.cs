@@ -23,8 +23,9 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        public override void Run(TBuffer buffer)
+        public override TBuffer Run(TBuffer buffer)
         {
+            return buffer;
         }
     }
 }

@@ -6,12 +6,12 @@ using Better.Operations.Runtime.Buffers;
 
 namespace Better.Operations.Runtime
 {
-    public abstract class Operation<TBuffer, TAdapter>
+    public abstract class Operation<TBuffer, TAdapter> : IDisposable
         where TBuffer : OperationBuffer
         where TAdapter : BufferStageAdapter<TBuffer>
     {
         // TODO: Cancel
-        
+
         private Queue<TBuffer> _buffersQueue;
 
         public int ExecutingCount { get; private set; }
@@ -78,5 +78,10 @@ namespace Better.Operations.Runtime
         }
 
         protected abstract void ExecuteNext(TBuffer buffer);
+
+        public virtual void Dispose()
+        {
+            _buffersQueue = null;
+        }
     }
 }

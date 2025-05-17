@@ -24,7 +24,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        public override Task RunAsync(TBuffer buffer)
+        public override Task<TBuffer> RunAsync(TBuffer buffer)
         {
             return default;
         }

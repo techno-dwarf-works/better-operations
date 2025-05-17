@@ -7,6 +7,6 @@ namespace Better.Operations.Runtime.Stages
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public abstract void Run(TBuffer buffer);
+        public abstract TBuffer Run(TBuffer buffer);
     }
 }

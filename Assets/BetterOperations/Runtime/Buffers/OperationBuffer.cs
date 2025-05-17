@@ -1,9 +1,8 @@
 ﻿namespace Better.Operations.Runtime.Buffers
 {
-    public class OperationBuffer
+    public abstract class OperationBuffer
     {
-        public OperationBuffer()
-        {
-        }
+        public abstract bool IsCancellationRequested { get; }
+        public abstract void Cancel();
     }
 }

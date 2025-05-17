@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
@@ -24,9 +25,10 @@ namespace Better.Operations.Runtime
         where TValue : struct
         where TMember : IOperationMember
     {
-        public Task<ValueAsyncBuffer<TValue, TMember>> ExecuteAsync(TValue sourceValue)
+        public Task<ValueAsyncBuffer<TValue, TMember>> ExecuteAsync(TValue sourceValue, CancellationToken cancellationToken)
         {
-            var buffer = new ValueAsyncBuffer<TValue, TMember>(Members, sourceValue);
+            var bufferTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, AliveToken);
+            var buffer = new ValueAsyncBuffer<TValue, TMember>(Members, sourceValue, bufferTokenSource.Token);
             return ExecuteAsync(buffer);
         }
     }

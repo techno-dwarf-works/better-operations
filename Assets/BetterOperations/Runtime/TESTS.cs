@@ -45,7 +45,7 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
 
         public void DoJump()
         {
-            _jumpOperation.ExecuteAsync(default);
+            _jumpOperation.ExecuteAsync(default, default);
         }
 
         bool IOperationMemberRegistry<IOperationModifier>.Register(IOperationModifier member)

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
@@ -21,9 +22,10 @@ namespace Better.Operations.Runtime
     public class ContextualAsyncOperation<TContext, TMember> : ContextualAsyncOperation<ContextualAsyncBuffer<TContext, TMember>, TContext, TMember>
         where TMember : IOperationMember
     {
-        public Task<ContextualAsyncBuffer<TContext, TMember>> ExecuteAsync(TContext context)
+        public Task<ContextualAsyncBuffer<TContext, TMember>> ExecuteAsync(TContext context, CancellationToken cancellationToken)
         {
-            var buffer = new ContextualAsyncBuffer<TContext, TMember>(Members, context);
+            var bufferTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, AliveToken);
+            var buffer = new ContextualAsyncBuffer<TContext, TMember>(Members, context, bufferTokenSource.Token);
             return ExecuteAsync(buffer);
         }
     }

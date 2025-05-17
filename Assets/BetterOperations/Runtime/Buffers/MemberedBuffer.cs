@@ -4,7 +4,7 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Buffers
 {
-    public class MemberedBuffer<TMember> : OperationBuffer
+    public abstract class MemberedBuffer<TMember> : OperationBuffer
         where TMember : IOperationMember
     {
         public TMember[] Members { get; }

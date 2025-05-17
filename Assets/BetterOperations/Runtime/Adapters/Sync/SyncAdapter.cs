@@ -8,7 +8,7 @@ namespace Better.Operations.Runtime.Adapters
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public abstract void Run(TBuffer buffer);
+        public abstract TBuffer Run(TBuffer buffer);
     }
 
     public abstract class SyncAdapter<TBuffer, TStage, TMember> : SyncAdapter<TBuffer, TMember>

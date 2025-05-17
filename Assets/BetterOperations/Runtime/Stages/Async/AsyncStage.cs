@@ -8,6 +8,6 @@ namespace Better.Operations.Runtime.Stages
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public abstract Task RunAsync(TBuffer buffer);
+        public abstract Task<TBuffer> RunAsync(TBuffer buffer);
     }
 }

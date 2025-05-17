@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Buffers
@@ -8,7 +9,8 @@ namespace Better.Operations.Runtime.Buffers
     {
         public TContext Context { get; }
 
-        public ContextualAsyncBuffer(IEnumerable<TMember> members, TContext context) : base(members)
+        public ContextualAsyncBuffer(IEnumerable<TMember> members, TContext context, CancellationToken cancellationToken)
+            : base(members, cancellationToken)
         {
             Context = context;
         }

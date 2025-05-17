@@ -12,9 +12,9 @@ namespace Better.Operations.Runtime.Adapters
         {
         }
 
-        public override void Run(TBuffer buffer)
+        public override TBuffer Run(TBuffer buffer)
         {
-            RelativeStage.Run(buffer);
+            return RelativeStage.Run(buffer);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Better.Operations.Runtime.Adapters
         {
         }
 
-        public override Task RunAsync(TBuffer buffer)
+        public override Task<TBuffer> RunAsync(TBuffer buffer)
         {
             return RelativeStage.RunAsync(buffer);
         }

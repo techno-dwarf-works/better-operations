@@ -15,7 +15,7 @@ namespace Better.Operations.Runtime
 
             for (int i = 0; i < Adapters.Length; i++)
             {
-                Adapters[i].Run(buffer);
+                Adapters[i].Run(buffer); // TODO: Buffer
                 // TODO: Add cancel/stop handle
             }
 
