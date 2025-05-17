@@ -23,7 +23,7 @@ namespace Better.Operations.Runtime
         public void Run(TContext context)
         {
             var buffer = new ContextualSyncBuffer<TContext, TMember>(Members, context);
-            Run(buffer);
+            Execute(buffer);
         }
     }
 }
