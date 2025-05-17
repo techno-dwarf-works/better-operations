@@ -1,4 +1,5 @@
-﻿using Better.Operations.Runtime.Adapters;
+﻿using System.Threading.Tasks;
+using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
 
@@ -23,12 +24,15 @@ namespace Better.Operations.Runtime
         where TValue : struct
         where TMember : IOperationMember
     {
-        public TValue Execute(TValue sourceValue)
+        public Task<ValueAsyncBuffer<TValue, TMember>> ExecuteAsync(TValue sourceValue)
         {
             var buffer = new ValueAsyncBuffer<TValue, TMember>(Members, sourceValue);
-            Execute(buffer);
-
-            return buffer.ModifiedValue;
+            return ExecuteAsync(buffer);
         }
+    }
+
+    public class ValueAsyncOperation<TValue> : ValueAsyncOperation<TValue, IOperationMember>
+        where TValue : struct
+    {
     }
 }

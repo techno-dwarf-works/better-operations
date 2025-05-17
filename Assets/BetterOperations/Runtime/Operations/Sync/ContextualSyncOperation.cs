@@ -20,10 +20,14 @@ namespace Better.Operations.Runtime
     public class ContextualSyncOperation<TContext, TMember> : ContextualSyncOperation<ContextualSyncBuffer<TContext, TMember>, TContext, TMember>
         where TMember : IOperationMember
     {
-        public void Run(TContext context)
+        public ContextualSyncBuffer<TContext, TMember> Execute(TContext context)
         {
             var buffer = new ContextualSyncBuffer<TContext, TMember>(Members, context);
-            Execute(buffer);
+            return Execute(buffer);
         }
+    }
+
+    public class ContextualSyncOperation<TContext> : ContextualSyncOperation<TContext, IOperationMember>
+    {
     }
 }

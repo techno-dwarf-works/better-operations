@@ -35,7 +35,7 @@ namespace Better.Operations.Runtime.Builders
     {
     }
 
-    public class AsyncOperationBuilder<TBuilder, TMember> : AsyncOperationBuilder<TBuilder, AsyncOperation<TMember>, AsyncBuffer<TMember>, TMember>
+    public abstract class AsyncOperationBuilder<TBuilder, TMember> : AsyncOperationBuilder<TBuilder, AsyncOperation<TMember>, AsyncBuffer<TMember>, TMember>
         where TBuilder : AsyncOperationBuilder<TBuilder, TMember>, new()
         where TMember : IOperationMember
     {
@@ -43,6 +43,10 @@ namespace Better.Operations.Runtime.Builders
 
     public class AsyncOperationBuilder<TMember> : AsyncOperationBuilder<AsyncOperationBuilder<TMember>, TMember>
         where TMember : IOperationMember
+    {
+    }
+
+    public class AsyncOperationBuilder : AsyncOperationBuilder<AsyncOperationBuilder, AsyncOperation, AsyncBuffer<IOperationMember>, IOperationMember>
     {
     }
 }

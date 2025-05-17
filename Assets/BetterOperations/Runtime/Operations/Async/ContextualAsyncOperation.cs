@@ -1,4 +1,5 @@
-﻿using Better.Operations.Runtime.Adapters;
+﻿using System.Threading.Tasks;
+using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
 
@@ -20,10 +21,14 @@ namespace Better.Operations.Runtime
     public class ContextualAsyncOperation<TContext, TMember> : ContextualAsyncOperation<ContextualAsyncBuffer<TContext, TMember>, TContext, TMember>
         where TMember : IOperationMember
     {
-        public void Run(TContext context)
+        public Task<ContextualAsyncBuffer<TContext, TMember>> ExecuteAsync(TContext context)
         {
             var buffer = new ContextualAsyncBuffer<TContext, TMember>(Members, context);
-            Execute(buffer);
+            return ExecuteAsync(buffer);
         }
+    }
+
+    public class ContextualAsyncOperation<TContext> : ContextualAsyncOperation<TContext, IOperationMember>
+    {
     }
 }

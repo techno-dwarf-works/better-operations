@@ -31,4 +31,8 @@ namespace Better.Operations.Runtime.Builders
         where TMember : IOperationMember
     {
     }
+
+    public class ContextualSyncOperationBuilder<TContext> : ContextualSyncOperationBuilder<ContextualSyncOperationBuilder<TContext>, ContextualSyncOperation<TContext>, ContextualSyncBuffer<TContext, IOperationMember>, TContext, IOperationMember>
+    {
+    }
 }

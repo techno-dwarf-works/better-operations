@@ -9,16 +9,18 @@ namespace Better.Operations.Runtime
         where TAdapter : SyncAdapter<TBuffer, TMember>
         where TMember : IOperationMember
     {
-        protected void Execute(TBuffer buffer)
+        protected TBuffer Execute(TBuffer buffer)
         {
             OnPreExecute(buffer);
 
             for (int i = 0; i < Adapters.Length; i++)
             {
                 Adapters[i].Run(buffer);
+                // TODO: Add cancel/stop handle
             }
 
             OnPostExecute(buffer);
+            return buffer;
         }
 
         protected override void ExecuteNext(TBuffer buffer)
@@ -36,10 +38,14 @@ namespace Better.Operations.Runtime
     public class SyncOperation<TMember> : SyncOperation<SyncBuffer<TMember>, TMember>
         where TMember : IOperationMember
     {
-        public void Execute()
+        public SyncBuffer<TMember> Execute()
         {
             var buffer = new SyncBuffer<TMember>(Members);
-            Execute(buffer);
+            return Execute(buffer);
         }
+    }
+
+    public class SyncOperation : SyncOperation<IOperationMember>
+    {
     }
 }

@@ -35,7 +35,7 @@ namespace Better.Operations.Runtime.Builders
     {
     }
 
-    public class SyncOperationBuilder<TBuilder, TMember> : SyncOperationBuilder<TBuilder, SyncOperation<TMember>, SyncBuffer<TMember>, TMember>
+    public abstract class SyncOperationBuilder<TBuilder, TMember> : SyncOperationBuilder<TBuilder, SyncOperation<TMember>, SyncBuffer<TMember>, TMember>
         where TBuilder : SyncOperationBuilder<TBuilder, TMember>, new()
         where TMember : IOperationMember
     {
@@ -43,6 +43,10 @@ namespace Better.Operations.Runtime.Builders
 
     public class SyncOperationBuilder<TMember> : SyncOperationBuilder<SyncOperationBuilder<TMember>, TMember>
         where TMember : IOperationMember
+    {
+    }
+
+    public class SyncOperationBuilder : SyncOperationBuilder<SyncOperationBuilder, SyncOperation, SyncBuffer<IOperationMember>, IOperationMember>
     {
     }
 }

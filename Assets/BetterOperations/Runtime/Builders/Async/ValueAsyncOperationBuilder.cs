@@ -35,4 +35,9 @@ namespace Better.Operations.Runtime.Builders
         where TMember : IOperationMember
     {
     }
+
+    public class ValueAsyncOperationBuilder<TValue> : ValueAsyncOperationBuilder<ValueAsyncOperationBuilder<TValue>, ValueAsyncOperation<TValue>, ValueAsyncBuffer<TValue, IOperationMember>, TValue, IOperationMember>
+        where TValue : struct
+    {
+    }
 }

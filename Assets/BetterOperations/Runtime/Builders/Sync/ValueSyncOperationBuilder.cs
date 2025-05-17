@@ -35,4 +35,9 @@ namespace Better.Operations.Runtime.Builders
         where TMember : IOperationMember
     {
     }
+
+    public class ValueSyncOperationBuilder<TValue> : ValueSyncOperationBuilder<ValueSyncOperationBuilder<TValue>, ValueSyncOperation<TValue>, ValueSyncBuffer<TValue, IOperationMember>, TValue, IOperationMember>
+        where TValue : struct
+    {
+    }
 }

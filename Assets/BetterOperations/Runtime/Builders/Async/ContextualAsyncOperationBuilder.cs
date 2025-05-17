@@ -31,4 +31,8 @@ namespace Better.Operations.Runtime.Builders
         where TMember : IOperationMember
     {
     }
+
+    public class ContextualAsyncOperationBuilder<TContext> : ContextualAsyncOperationBuilder<ContextualAsyncOperationBuilder<TContext>, ContextualAsyncOperation<TContext>, ContextualAsyncBuffer<TContext, IOperationMember>, TContext, IOperationMember>
+    {
+    }
 }

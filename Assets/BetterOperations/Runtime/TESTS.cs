@@ -28,12 +28,12 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
     public class TESTS : IOperationMemberRegistry<IOperationModifier>
     {
         private HashSet<IOperationModifier> _members;
-        private SyncOperation<IJumpOperationMember> _jumpOperation;
+        private ContextualAsyncOperation<CrouchModif> _jumpOperation;
         public int MembersCount => _members.Count;
 
         public void Test()
         {
-            _jumpOperation = SyncOperationBuilder<IJumpOperationMember>.Create()
+            _jumpOperation = ContextualAsyncOperationBuilder<CrouchModif>.Create()
                 .Build();
 
             var jumpModif = new JumpModif();
@@ -45,7 +45,7 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
 
         public void DoJump()
         {
-            _jumpOperation.Execute();
+            _jumpOperation.ExecuteAsync(default);
         }
 
         bool IOperationMemberRegistry<IOperationModifier>.Register(IOperationModifier member)
