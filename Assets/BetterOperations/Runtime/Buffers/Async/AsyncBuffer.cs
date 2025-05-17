@@ -3,10 +3,10 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Buffers
 {
-    public class AsyncOperationBuffer<TMember> : MemberedBuffer<TMember>
+    public class AsyncBuffer<TMember> : MemberedBuffer<TMember>
         where TMember : IOperationMember
     {
-        public AsyncOperationBuffer(IEnumerable<TMember> members) : base(members)
+        public AsyncBuffer(IEnumerable<TMember> members) : base(members)
         {
         }
     }

@@ -3,14 +3,14 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Buffers
 {
-    public class ValueAsyncOperationBuffer<TValue, TMember> : AsyncOperationBuffer<TMember>
+    public class ValueAsyncBuffer<TValue, TMember> : AsyncBuffer<TMember>
         where TValue : struct
         where TMember : IOperationMember
     {
         public TValue SourceValue { get; }
         public TValue ModifiedValue { get; set; }
 
-        public ValueAsyncOperationBuffer(IEnumerable<TMember> members, TValue sourceValue) : base(members)
+        public ValueAsyncBuffer(IEnumerable<TMember> members, TValue sourceValue) : base(members)
         {
             SourceValue = sourceValue;
             ResetModifiedValue();
