@@ -4,9 +4,8 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime
 {
-    public abstract class SyncOperation<TBuffer, TAdapter, TMember> : MemberedOperation<TBuffer, TAdapter, TMember>
+    public abstract class SyncOperation<TBuffer, TMember> : MemberedOperation<TBuffer, SyncAdapter<TBuffer, TMember>, TMember>
         where TBuffer : SyncBuffer<TMember>
-        where TAdapter : SyncAdapter<TBuffer, TMember>
         where TMember : IOperationMember
     {
         protected TBuffer Execute(TBuffer buffer)
@@ -27,12 +26,6 @@ namespace Better.Operations.Runtime
         {
             Execute(buffer);
         }
-    }
-
-    public abstract class SyncOperation<TBuffer, TMember> : SyncOperation<TBuffer, SyncAdapter<TBuffer, TMember>, TMember>
-        where TBuffer : SyncBuffer<TMember>
-        where TMember : IOperationMember
-    {
     }
 
     public class SyncOperation<TMember> : SyncOperation<SyncBuffer<TMember>, TMember>

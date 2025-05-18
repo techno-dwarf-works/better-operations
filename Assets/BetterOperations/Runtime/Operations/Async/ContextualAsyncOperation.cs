@@ -1,19 +1,11 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime
 {
-    public abstract class ContextualAsyncOperation<TBuffer, TAdapter, TContext, TMember> : AsyncOperation<TBuffer, TAdapter, TMember>
-        where TBuffer : ContextualAsyncBuffer<TContext, TMember>
-        where TAdapter : AsyncAdapter<TBuffer, TMember>
-        where TMember : IOperationMember
-    {
-    }
-
-    public abstract class ContextualAsyncOperation<TBuffer, TContext, TMember> : ContextualAsyncOperation<TBuffer, AsyncAdapter<TBuffer, TMember>, TContext, TMember>
+    public abstract class ContextualAsyncOperation<TBuffer, TContext, TMember> : AsyncOperation<TBuffer, TMember>
         where TBuffer : ContextualAsyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {

@@ -7,9 +7,8 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime
 {
-    public abstract class AsyncOperation<TBuffer, TAdapter, TMember> : MemberedOperation<TBuffer, TAdapter, TMember>
+    public abstract class AsyncOperation<TBuffer, TMember> : MemberedOperation<TBuffer, AsyncAdapter<TBuffer, TMember>, TMember>
         where TBuffer : AsyncBuffer<TMember>
-        where TAdapter : AsyncAdapter<TBuffer, TMember>
         where TMember : IOperationMember
     {
         private CancellationTokenSource _aliveTokenSource;
@@ -46,12 +45,6 @@ namespace Better.Operations.Runtime
 
             _aliveTokenSource.Cancel();
         }
-    }
-
-    public abstract class AsyncOperation<TBuffer, TMember> : AsyncOperation<TBuffer, AsyncAdapter<TBuffer, TMember>, TMember>
-        where TBuffer : AsyncBuffer<TMember>
-        where TMember : IOperationMember
-    {
     }
 
     public class AsyncOperation<TMember> : AsyncOperation<AsyncBuffer<TMember>, TMember>

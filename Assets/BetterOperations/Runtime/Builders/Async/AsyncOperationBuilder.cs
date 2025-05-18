@@ -4,11 +4,10 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Builders
 {
-    public abstract class AsyncOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember> : MemberedOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember>
-        where TBuilder : AsyncOperationBuilder<TBuilder, TOperation, TBuffer, TAdapter, TMember>, new()
-        where TOperation : AsyncOperation<TBuffer, TAdapter, TMember>, new()
+    public abstract class AsyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember> : MemberedOperationBuilder<TBuilder, TOperation, TBuffer, AsyncAdapter<TBuffer, TMember>, TMember>
+        where TBuilder : AsyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember>, new()
+        where TOperation : AsyncOperation<TBuffer, TMember>, new()
         where TBuffer : AsyncBuffer<TMember>
-        where TAdapter : AsyncAdapter<TBuffer, TMember>
         where TMember : IOperationMember
     {
         // protected TBuilder InsertCallback(int index, Action action)
@@ -25,14 +24,6 @@ namespace Better.Operations.Runtime.Builders
         //     callbackAsyncStage.Register(action);
         //     return (TBuilder)this;
         // }
-    }
-
-    public abstract class AsyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember> : MemberedOperationBuilder<TBuilder, TOperation, TBuffer, AsyncAdapter<TBuffer, TMember>, TMember>
-        where TBuilder : AsyncOperationBuilder<TBuilder, TOperation, TBuffer, TMember>, new()
-        where TOperation : AsyncOperation<TBuffer, AsyncAdapter<TBuffer, TMember>, TMember>, new()
-        where TBuffer : AsyncBuffer<TMember>
-        where TMember : IOperationMember
-    {
     }
 
     public abstract class AsyncOperationBuilder<TBuilder, TMember> : AsyncOperationBuilder<TBuilder, AsyncOperation<TMember>, AsyncBuffer<TMember>, TMember>
