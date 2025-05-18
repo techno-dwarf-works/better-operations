@@ -9,7 +9,7 @@ namespace Better.Operations.Runtime.Stages
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.WhenAllGood;
+        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.Proceed;
 
         public abstract Task<TBuffer> ExecuteAsync(TBuffer buffer);
     }

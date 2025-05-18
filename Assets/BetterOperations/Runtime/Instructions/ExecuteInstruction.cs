@@ -5,11 +5,9 @@ namespace Better.Operations.Runtime.Instructions
     [Flags]
     public enum ExecuteInstruction
     {
-        // TODO: Naming
-
-        WhenAllGood = 1,
-        WhenUnpermissed = 2,
-        WhenCancelled = 4,
-        Any = WhenAllGood | WhenUnpermissed | WhenCancelled,
+        Proceed = 1,
+        PermissionDenied = 2,
+        Cancelled = 4,
+        Always = Proceed | PermissionDenied | Cancelled,
     }
 }

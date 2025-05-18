@@ -8,7 +8,7 @@ namespace Better.Operations.Runtime.Stages
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.WhenAllGood;
+        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.Proceed;
 
         public abstract TBuffer Execute(TBuffer buffer);
     }

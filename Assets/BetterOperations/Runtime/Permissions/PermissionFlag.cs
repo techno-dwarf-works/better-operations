@@ -1,6 +1,5 @@
 ﻿using System;
 using Better.Commons.Runtime.Utility;
-using UnityEngine;
 
 namespace Better.Operations.Runtime.Permissions
 {
