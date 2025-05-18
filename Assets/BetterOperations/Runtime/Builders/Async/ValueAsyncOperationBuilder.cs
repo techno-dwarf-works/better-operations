@@ -13,18 +13,18 @@ namespace Better.Operations.Runtime.Builders
         where TValue : struct
         where TMember : IOperationMember
     {
+        #region Notifications
+
+        private ValueNotificationAsyncStage<TBuffer, TValue, TMember> NotificationStageAt(int index)
+        {
+            return StageAt<ValueNotificationAsyncStage<TBuffer, TValue, TMember>>(index);
+        }
+
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnNotificationAsync notification)
         {
-            var joinIndex = index - 1;
-            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
-            if (adapter?.Stage is not ValueNotificationAsyncStage<TBuffer, TValue, TMember> notificationAsyncStage)
-            {
-                notificationAsyncStage = new();
-                adapter = new DerivedAsyncAdapter<TBuffer, TMember>(notificationAsyncStage);
-                Adapters.Insert(index, adapter);
-            }
-
+            var notificationAsyncStage = NotificationStageAt(index);
             notificationAsyncStage.Register(notification);
+
             return (TBuilder)this;
         }
 
@@ -40,16 +40,9 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotificationBy getter)
         {
-            var joinIndex = index - 1;
-            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
-            if (adapter?.Stage is not ValueNotificationAsyncStage<TBuffer, TValue, TMember> notificationAsyncStage)
-            {
-                notificationAsyncStage = new();
-                adapter = new DerivedAsyncAdapter<TBuffer, TMember>(notificationAsyncStage);
-                Adapters.Insert(index, adapter);
-            }
-
+            var notificationAsyncStage = NotificationStageAt(index);
             notificationAsyncStage.Register(getter);
+
             return (TBuilder)this;
         }
 
@@ -65,16 +58,9 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotificationBy getter)
         {
-            var joinIndex = index - 1;
-            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
-            if (adapter?.Stage is not ValueNotificationAsyncStage<TBuffer, TValue, TMember> notificationAsyncStage)
-            {
-                notificationAsyncStage = new();
-                adapter = new DerivedAsyncAdapter<TBuffer, TMember>(notificationAsyncStage);
-                Adapters.Insert(index, adapter);
-            }
-
+            var notificationAsyncStage = NotificationStageAt(index);
             notificationAsyncStage.Register(getter);
+
             return (TBuilder)this;
         }
 
@@ -90,16 +76,9 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync getter)
         {
-            var joinIndex = index - 1;
-            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
-            if (adapter?.Stage is not ValueNotificationAsyncStage<TBuffer, TValue, TMember> notificationAsyncStage)
-            {
-                notificationAsyncStage = new();
-                adapter = new DerivedAsyncAdapter<TBuffer, TMember>(notificationAsyncStage);
-                Adapters.Insert(index, adapter);
-            }
-
+            var notificationAsyncStage = NotificationStageAt(index);
             notificationAsyncStage.Register(getter);
+
             return (TBuilder)this;
         }
 
@@ -115,16 +94,9 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotification getter)
         {
-            var joinIndex = index - 1;
-            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
-            if (adapter?.Stage is not ValueNotificationAsyncStage<TBuffer, TValue, TMember> notificationAsyncStage)
-            {
-                notificationAsyncStage = new();
-                adapter = new DerivedAsyncAdapter<TBuffer, TMember>(notificationAsyncStage);
-                Adapters.Insert(index, adapter);
-            }
-
+            var notificationAsyncStage = NotificationStageAt(index);
             notificationAsyncStage.Register(getter);
+
             return (TBuilder)this;
         }
 
@@ -140,16 +112,9 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotification getter)
         {
-            var joinIndex = index - 1;
-            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
-            if (adapter?.Stage is not ValueNotificationAsyncStage<TBuffer, TValue, TMember> notificationAsyncStage)
-            {
-                notificationAsyncStage = new();
-                adapter = new DerivedAsyncAdapter<TBuffer, TMember>(notificationAsyncStage);
-                Adapters.Insert(index, adapter);
-            }
-
+            var notificationAsyncStage = NotificationStageAt(index);
             notificationAsyncStage.Register(getter);
+
             return (TBuilder)this;
         }
 
@@ -162,6 +127,8 @@ namespace Better.Operations.Runtime.Builders
         {
             return InsertNotification(Adapters.Count, getter);
         }
+
+        #endregion
     }
 
     public abstract class ValueAsyncOperationBuilder<TBuilder, TValue, TMember> : ValueAsyncOperationBuilder<TBuilder, ValueAsyncOperation<TValue, TMember>, ValueAsyncBuffer<TValue, TMember>, TValue, TMember>
