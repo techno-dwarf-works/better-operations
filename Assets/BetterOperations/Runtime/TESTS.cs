@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Better.Operations.Runtime.Builders;
 using Better.Operations.Runtime.Extensions;
 using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Permissions;
+using UnityEngine;
 
 namespace Better.Operations.Runtime.BetterOperations.Runtime
 {
@@ -13,6 +15,8 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
 
     public interface IJumpOperationMember : IOperationModifier
     {
+        public Task OnPreJumpAsync(Vector3 sourceValue, Vector3 modifiedValue);
+        public Task OnPostJumpAsync();
     }
 
     public interface ICrouchOperationMember : IOperationModifier
@@ -21,6 +25,15 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
 
     public class JumpModif : IJumpOperationMember
     {
+        public Task OnPreJumpAsync(Vector3 sourceValue, Vector3 modifiedValue)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public Task OnPostJumpAsync()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     public class CrouchModif : ICrouchOperationMember
@@ -30,24 +43,34 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
     public class TESTS : IOperationMemberRegistry<IOperationModifier>
     {
         private HashSet<IOperationModifier> _members;
-        private ContextualAsyncOperation<CrouchModif> _jumpOperation;
+        private ValueAsyncOperation<Vector3, IJumpOperationMember> _jumpOperation;
         public int MembersCount => _members.Count;
 
         public void Test()
         {
-            _jumpOperation = ContextualAsyncOperationBuilder<CrouchModif>.Create()
+            _jumpOperation = ValueAsyncOperationBuilder<Vector3, IJumpOperationMember>.Create()
+                .AppendNotification(member => member.OnPreJumpAsync)
+                .AppendNotification(member => member.OnPostJumpAsync)
                 .Build();
+            
+            // var jumpModif = new JumpModif();
+            // var crouchModif = new CrouchModif();
+            // var registry = (IOperationMemberRegistry<IOperationModifier>)this;
+            // registry.Register(jumpModif);
+            // registry.Register(crouchModif);
+        }
 
-            var jumpModif = new JumpModif();
-            var crouchModif = new CrouchModif();
-            var registry = (IOperationMemberRegistry<IOperationModifier>)this;
-            registry.Register(jumpModif);
-            registry.Register(crouchModif);
+        private void OnJumpStarted()
+        {
+        }
+
+        private void OnJumpCompleted()
+        {
         }
 
         public void DoJump()
         {
-            _jumpOperation.ExecuteAsync(default, default);
+            // _jumpOperation.ExecuteAsync(default, default);
 
             var maxAllowPermission = PermissionFlag.Create(PermissionValues.MaxAllow);
             var minAllowPermission = PermissionFlag.Create(PermissionValues.MinAllow);

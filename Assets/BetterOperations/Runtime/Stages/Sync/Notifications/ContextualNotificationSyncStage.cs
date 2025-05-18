@@ -4,31 +4,24 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Stages
 {
-    public class NotificationSyncStage<TBuffer, TMember> : SyncStage<TBuffer, TMember>
-        where TBuffer : SyncBuffer<TMember>
+    public class ContextualNotificationSyncStage<TBuffer, TContext, TMember> : SyncStage<TBuffer, TMember>
+        where TBuffer : ContextualSyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {
         private OnNotification _notification;
-        private HashSet<MemberNotificationGetter> _memberNotificationGetters;
+        private HashSet<GetNotificationBy> _memberNotificationGetters;
 
-        public delegate void OnNotification();
+        public delegate void OnNotification(TContext context);
 
-        public delegate OnNotification MemberNotificationGetter(TMember member);
+        public delegate OnNotification GetNotificationBy(TMember member);
 
-        public NotificationSyncStage()
+        public ContextualNotificationSyncStage()
         {
             _memberNotificationGetters = new();
         }
 
-        public void RegisterAction(OnNotification notification)
-        {
-            _notification += notification;
-        }
-
-        public void RegisterMemberAction(MemberNotificationGetter notificationGetter)
-        {
-            _memberNotificationGetters.Add(notificationGetter);
-        }
+        public void Register(OnNotification notification) => _notification += notification;
+        public void Register(GetNotificationBy getter) => _memberNotificationGetters.Add(getter);
 
         public override TBuffer Execute(TBuffer buffer)
         {
@@ -40,7 +33,7 @@ namespace Better.Operations.Runtime.Stages
 
         private void ExecuteNotification(TBuffer buffer)
         {
-            _notification?.Invoke();
+            _notification?.Invoke(buffer.Context);
         }
 
         private void ExecuteMembersNotification(TBuffer buffer)
@@ -52,7 +45,11 @@ namespace Better.Operations.Runtime.Stages
 
             foreach (var memberNotificationGetter in _memberNotificationGetters)
             {
-                // xxxxxxxxxxxxxxxx
+                foreach (var member in buffer.Members)
+                {
+                    var notification = memberNotificationGetter.Invoke(member);
+                    notification.Invoke(buffer.Context);
+                }
             }
         }
     }

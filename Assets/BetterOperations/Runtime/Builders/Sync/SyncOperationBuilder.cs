@@ -12,19 +12,54 @@ namespace Better.Operations.Runtime.Builders
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        protected TBuilder InsertNotification(int index, NotificationSyncStage<TBuffer, TMember>.OnNotification notification)
+        protected virtual TBuilder InsertNotification(int index, NotificationSyncStage<TBuffer, TMember>.OnNotification notification)
         {
             var joinIndex = index - 1;
             var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
             if (adapter?.Stage is not NotificationSyncStage<TBuffer, TMember> notificationSyncStage)
             {
                 notificationSyncStage = new();
-                var aaadapter = new DerivedSyncAdapter<TBuffer, TMember>(notificationSyncStage);
-                Adapters.Insert(index, aaadapter);
+                adapter = new DerivedSyncAdapter<TBuffer, TMember>(notificationSyncStage);
+                Adapters.Insert(index, adapter);
             }
 
-            // notificationSyncStage.Register(notification);
+            notificationSyncStage.Register(notification);
             return (TBuilder)this;
+        }
+
+        public TBuilder PrependNotification(NotificationSyncStage<TBuffer, TMember>.OnNotification notification)
+        {
+            return InsertNotification(0, notification);
+        }
+
+        public TBuilder AppendNotification(NotificationSyncStage<TBuffer, TMember>.OnNotification notification)
+        {
+            return InsertNotification(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertNotification(int index, NotificationSyncStage<TBuffer, TMember>.GetNotificationBy getter)
+        {
+            var joinIndex = index - 1;
+            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
+            if (adapter?.Stage is not NotificationSyncStage<TBuffer, TMember> notificationSyncStage)
+            {
+                notificationSyncStage = new();
+                adapter = new DerivedSyncAdapter<TBuffer, TMember>(notificationSyncStage);
+                Adapters.Insert(index, adapter);
+            }
+
+            notificationSyncStage.Register(getter);
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependNotification(NotificationSyncStage<TBuffer, TMember>.GetNotificationBy getter)
+        {
+            return InsertNotification(0, getter);
+        }
+
+        public TBuilder AppendNotification(NotificationSyncStage<TBuffer, TMember>.GetNotificationBy getter)
+        {
+            return InsertNotification(Adapters.Count, getter);
         }
     }
 

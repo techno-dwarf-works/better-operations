@@ -1,5 +1,8 @@
-﻿using Better.Operations.Runtime.Buffers;
+﻿using Better.Commons.Runtime.Extensions;
+using Better.Operations.Runtime.Adapters;
+using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
+using Better.Operations.Runtime.Stages;
 
 namespace Better.Operations.Runtime.Builders
 {
@@ -9,6 +12,55 @@ namespace Better.Operations.Runtime.Builders
         where TBuffer : ContextualSyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {
+        protected virtual TBuilder InsertNotification(int index, ContextualNotificationSyncStage<TBuffer, TContext, TMember>.OnNotification notification)
+        {
+            var joinIndex = index - 1;
+            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
+            if (adapter?.Stage is not ContextualNotificationSyncStage<TBuffer, TContext, TMember> notificationSyncStage)
+            {
+                notificationSyncStage = new();
+                adapter = new DerivedSyncAdapter<TBuffer, TMember>(notificationSyncStage);
+                Adapters.Insert(index, adapter);
+            }
+
+            notificationSyncStage.Register(notification);
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependNotification(ContextualNotificationSyncStage<TBuffer, TContext, TMember>.OnNotification notification)
+        {
+            return InsertNotification(0, notification);
+        }
+
+        public TBuilder AppendNotification(ContextualNotificationSyncStage<TBuffer, TContext, TMember>.OnNotification notification)
+        {
+            return InsertNotification(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertNotification(int index, ContextualNotificationSyncStage<TBuffer, TContext, TMember>.GetNotificationBy getter)
+        {
+            var joinIndex = index - 1;
+            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
+            if (adapter?.Stage is not ContextualNotificationSyncStage<TBuffer, TContext, TMember> notificationSyncStage)
+            {
+                notificationSyncStage = new();
+                adapter = new DerivedSyncAdapter<TBuffer, TMember>(notificationSyncStage);
+                Adapters.Insert(index, adapter);
+            }
+
+            notificationSyncStage.Register(getter);
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependNotification(ContextualNotificationSyncStage<TBuffer, TContext, TMember>.GetNotificationBy getter)
+        {
+            return InsertNotification(0, getter);
+        }
+
+        public TBuilder AppendNotification(ContextualNotificationSyncStage<TBuffer, TContext, TMember>.GetNotificationBy getter)
+        {
+            return InsertNotification(Adapters.Count, getter);
+        }
     }
 
     public abstract class ContextualSyncOperationBuilder<TBuilder, TContext, TMember> : ContextualSyncOperationBuilder<TBuilder, ContextualSyncOperation<TContext, TMember>, ContextualSyncBuffer<TContext, TMember>, TContext, TMember>
