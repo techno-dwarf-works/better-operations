@@ -92,42 +92,6 @@ namespace Better.Operations.Runtime.Builders
             return InsertNotification(Adapters.Count, getter);
         }
 
-        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotification getter)
-        {
-            var notificationAsyncStage = NotificationStageAt(index);
-            notificationAsyncStage.Register(getter);
-
-            return (TBuilder)this;
-        }
-
-        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotification getter)
-        {
-            return InsertNotification(0, getter);
-        }
-
-        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotification getter)
-        {
-            return InsertNotification(Adapters.Count, getter);
-        }
-
-        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotification getter)
-        {
-            var notificationAsyncStage = NotificationStageAt(index);
-            notificationAsyncStage.Register(getter);
-
-            return (TBuilder)this;
-        }
-
-        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotification getter)
-        {
-            return InsertNotification(0, getter);
-        }
-
-        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotification getter)
-        {
-            return InsertNotification(Adapters.Count, getter);
-        }
-
         #endregion
     }
 

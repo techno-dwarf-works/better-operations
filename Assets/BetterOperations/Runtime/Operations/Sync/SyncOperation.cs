@@ -1,5 +1,6 @@
 ﻿using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime
@@ -11,15 +12,27 @@ namespace Better.Operations.Runtime
         protected TBuffer Execute(TBuffer buffer)
         {
             OnPreExecute(buffer);
-
-            for (int i = 0; i < Adapters.Length; i++)
-            {
-                Adapters[i].Run(buffer); // TODO: Buffer
-                // TODO: Add cancel/stop handle
-            }
-
+            ExecuteAdapters(buffer);
             OnPostExecute(buffer);
+
             return buffer;
+        }
+
+        private void ExecuteAdapters(TBuffer buffer)
+        {
+            foreach (var adapter in Adapters)
+            {
+                var result = adapter.TryExecute(buffer);
+                if (result)
+                {
+                    continue;
+                }
+
+                if (adapter.ExecuteInstruction == ExecuteInstruction.Mandatory)
+                {
+                    break;
+                }
+            }
         }
 
         protected override void ExecuteNext(TBuffer buffer)

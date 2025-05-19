@@ -9,8 +9,8 @@ namespace Better.Operations.Runtime.Stages
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.Proceed;
+        public virtual ExecuteInstruction ExecuteInstruction => ExecuteInstruction.Mandatory;
 
-        public abstract Task<TBuffer> ExecuteAsync(TBuffer buffer);
+        public abstract Task<bool> TryExecuteAsync(TBuffer buffer);
     }
 }

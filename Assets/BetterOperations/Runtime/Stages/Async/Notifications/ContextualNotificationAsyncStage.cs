@@ -8,7 +8,7 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Stages
 {
-    public class ContextualNotificationAsyncStage<TBuffer, TContext, TMember> : AsyncStage<TBuffer, TMember>
+    public class ContextualNotificationAsyncStage<TBuffer, TContext, TMember> : AllowableAsyncStage<TBuffer, TMember>
         where TBuffer : ContextualAsyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {
@@ -49,7 +49,7 @@ namespace Better.Operations.Runtime.Stages
         public void Register(GetNotificationBy getter) => _memberNotificationGetters.Add(getter);
         public void Register(GetTokenableNotificationBy getter) => _memberTokenableNotificationGetters.Add(getter);
 
-        public override async Task<TBuffer> ExecuteAsync(TBuffer buffer)
+        protected override Task ExecuteAsync(TBuffer buffer)
         {
             var subTasks = new List<Task>(6);
 
@@ -71,8 +71,7 @@ namespace Better.Operations.Runtime.Stages
             var memberTokenableNotificationsByTask = ExecuteMemberTokenableNotificationsByAsync(buffer);
             subTasks.Add(memberTokenableNotificationsByTask);
 
-            await subTasks.WhenAll();
-            return buffer;
+            return subTasks.WhenAll();
         }
 
         private Task ExecuteNotificationsAsync(TBuffer buffer)

@@ -3,7 +3,7 @@ using Better.Commons.Runtime.Utility;
 
 namespace Better.Operations.Runtime.Permissions
 {
-    public struct PermissionFlag : IComparable<PermissionFlag>
+    public readonly struct PermissionFlag : IComparable<PermissionFlag>
     {
         public int Value { get; }
 
@@ -12,7 +12,25 @@ namespace Better.Operations.Runtime.Permissions
             Value = value;
         }
 
-        public int CompareTo(PermissionFlag other) => Value.CompareTo(other.Value);
+        public int CompareTo(PermissionFlag other)
+        {
+            return Value.CompareTo(other.Value);
+        }
+
+        public bool Equals(PermissionFlag other)
+        {
+            return Value == other.Value;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is PermissionFlag other && Equals(other);
+        }
+
+        public override int GetHashCode()
+        {
+            return Value.GetHashCode();
+        }
 
         public static bool operator <(PermissionFlag a, PermissionFlag b) => a.Value < b.Value;
         public static bool operator >(PermissionFlag a, PermissionFlag b) => a.Value > b.Value;

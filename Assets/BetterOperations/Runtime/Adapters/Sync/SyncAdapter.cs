@@ -1,4 +1,5 @@
 ﻿using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Stages;
 
@@ -8,20 +9,28 @@ namespace Better.Operations.Runtime.Adapters
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public abstract TBuffer Run(TBuffer buffer);
+        public abstract ExecuteInstruction ExecuteInstruction { get; }
+
+        public abstract bool TryExecute(TBuffer buffer);
     }
 
-    public abstract class SyncAdapter<TBuffer, TStage, TMember> : SyncAdapter<TBuffer, TMember>
+    public class SyncAdapter<TBuffer, TStage, TMember> : SyncAdapter<TBuffer, TMember>
         where TBuffer : SyncBuffer<TMember>
         where TStage : SyncStage<TBuffer, TMember>
         where TMember : IOperationMember
     {
         public override OperationStage<TBuffer> Stage => RelativeStage;
+        public override ExecuteInstruction ExecuteInstruction => RelativeStage.ExecuteInstruction;
         public TStage RelativeStage { get; }
 
-        protected SyncAdapter(TStage stage)
+        public SyncAdapter(TStage stage)
         {
             RelativeStage = stage;
+        }
+
+        public override bool TryExecute(TBuffer buffer)
+        {
+            return RelativeStage.TryExecute(buffer);
         }
     }
 }

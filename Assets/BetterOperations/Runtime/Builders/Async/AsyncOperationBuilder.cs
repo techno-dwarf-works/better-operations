@@ -20,7 +20,7 @@ namespace Better.Operations.Runtime.Builders
             if (adapter?.Stage is not TStage stage)
             {
                 stage = new();
-                adapter = new DerivedAsyncAdapter<TBuffer, TMember>(stage);
+                adapter = new AsyncAdapter<TBuffer, TStage, TMember>(stage);
                 Adapters.Insert(index, adapter);
             }
 

@@ -4,7 +4,7 @@ using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Stages
 {
-    public class ContextualNotificationSyncStage<TBuffer, TContext, TMember> : SyncStage<TBuffer, TMember>
+    public class ContextualNotificationSyncStage<TBuffer, TContext, TMember> : AllowableSyncStage<TBuffer, TMember>
         where TBuffer : ContextualSyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {
@@ -23,12 +23,10 @@ namespace Better.Operations.Runtime.Stages
         public void Register(OnNotification notification) => _notification += notification;
         public void Register(GetNotificationBy getter) => _memberNotificationGetters.Add(getter);
 
-        public override TBuffer Execute(TBuffer buffer)
+        protected override void Execute(TBuffer buffer)
         {
             ExecuteNotification(buffer);
             ExecuteMembersNotification(buffer);
-
-            return buffer;
         }
 
         private void ExecuteNotification(TBuffer buffer)
