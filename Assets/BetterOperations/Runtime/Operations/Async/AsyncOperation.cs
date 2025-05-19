@@ -13,15 +13,6 @@ namespace Better.Operations.Runtime
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        private CancellationTokenSource _aliveTokenSource;
-
-        protected CancellationToken AliveToken => _aliveTokenSource.Token;
-
-        public AsyncOperation()
-        {
-            _aliveTokenSource = new();
-        }
-
         protected async Task<TBuffer> ExecuteAsync(TBuffer buffer)
         {
             OnPreExecute(buffer);
@@ -57,8 +48,11 @@ namespace Better.Operations.Runtime
         {
             base.Dispose();
 
-            // TODO: Add buffers cancel requesting (force) 
-            _aliveTokenSource.Cancel();
+            var executingBuffers = GetAllExecutingBuffers();
+            foreach (var executingBuffer in executingBuffers)
+            {
+                executingBuffer.RequestCancellation(true);
+            }
         }
     }
 
@@ -67,8 +61,7 @@ namespace Better.Operations.Runtime
     {
         public Task<AsyncBuffer<TMember>> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var bufferTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, AliveToken);
-            var buffer = new AsyncBuffer<TMember>(Members, bufferTokenSource.Token);
+            var buffer = new AsyncBuffer<TMember>(Members, cancellationToken);
             return ExecuteAsync(buffer);
         }
     }

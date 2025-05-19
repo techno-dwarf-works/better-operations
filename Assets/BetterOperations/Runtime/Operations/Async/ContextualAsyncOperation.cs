@@ -16,8 +16,7 @@ namespace Better.Operations.Runtime
     {
         public Task<ContextualAsyncBuffer<TContext, TMember>> ExecuteAsync(TContext context, CancellationToken cancellationToken)
         {
-            var bufferTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, AliveToken);
-            var buffer = new ContextualAsyncBuffer<TContext, TMember>(Members, context, bufferTokenSource.Token);
+            var buffer = new ContextualAsyncBuffer<TContext, TMember>(Members, context, cancellationToken);
             return ExecuteAsync(buffer);
         }
     }

@@ -18,8 +18,7 @@ namespace Better.Operations.Runtime
     {
         public Task<ValueAsyncBuffer<TValue, TMember>> ExecuteAsync(TValue sourceValue, CancellationToken cancellationToken)
         {
-            var bufferTokenSource = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken, AliveToken);
-            var buffer = new ValueAsyncBuffer<TValue, TMember>(Members, sourceValue, bufferTokenSource.Token);
+            var buffer = new ValueAsyncBuffer<TValue, TMember>(Members, sourceValue, cancellationToken);
             return ExecuteAsync(buffer);
         }
     }

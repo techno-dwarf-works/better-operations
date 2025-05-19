@@ -10,17 +10,18 @@ namespace Better.Operations.Runtime
         where TBuffer : OperationBuffer
         where TAdapter : BufferStageAdapter<TBuffer>
     {
-        // TODO: Cancel
+        private List<TBuffer> _executingBuffers;
+        private Queue<TBuffer> _scheduledBuffers;
 
-        private Queue<TBuffer> _buffersQueue;
+        public int ExecutingCount => _executingBuffers.Count;
+        public int QueueCount => _scheduledBuffers.Count;
 
-        public int ExecutingCount { get; private set; }
-        public int QueueCount => _buffersQueue.Count;
         protected TAdapter[] Adapters { get; private set; }
 
         protected Operation()
         {
-            _buffersQueue = new();
+            _executingBuffers = new();
+            _scheduledBuffers = new();
         }
 
         internal void SetupAdapters(TAdapter[] adapters)
@@ -30,14 +31,14 @@ namespace Better.Operations.Runtime
 
         protected void Schedule(TBuffer buffer)
         {
-            if (_buffersQueue.Contains(buffer))
+            if (_scheduledBuffers.Contains(buffer))
             {
                 var message = $"{nameof(buffer)}({buffer}) already scheduled";
                 DebugUtility.LogException<ArgumentException>(message);
                 return;
             }
 
-            _buffersQueue.Enqueue(buffer);
+            _scheduledBuffers.Enqueue(buffer);
             OnScheduled(buffer);
         }
 
@@ -48,19 +49,26 @@ namespace Better.Operations.Runtime
 
         protected virtual void OnPreExecute(TBuffer buffer)
         {
-            ExecutingCount++;
-        }
-
-        protected virtual void OnPostExecute(TBuffer buffer)
-        {
-            if (ExecutingCount <= 0)
+            if (_executingBuffers.Contains(buffer))
             {
-                var message = $"Unexpected state, {nameof(ExecutingCount)}({ExecutingCount}) has unavailable value";
+                var message = $"Unexpected state, {nameof(buffer)}({buffer}) already executed";
                 DebugUtility.LogException<InvalidOperationException>(message);
                 return;
             }
 
-            ExecutingCount--;
+            _executingBuffers.Add(buffer);
+        }
+
+        protected virtual void OnPostExecute(TBuffer buffer)
+        {
+            var removed = _executingBuffers.Remove(buffer);
+            if (!removed)
+            {
+                var message = $"Unexpected state, {nameof(buffer)}({buffer}) is not executed";
+                DebugUtility.LogException<InvalidOperationException>(message);
+                return;
+            }
+
             TryExecuteNext();
         }
 
@@ -68,7 +76,7 @@ namespace Better.Operations.Runtime
         {
             if (ExecutingCount == 0 && QueueCount > 0)
             {
-                var buffer = _buffersQueue.Dequeue();
+                var buffer = _scheduledBuffers.Dequeue();
                 ExecuteNext(buffer);
 
                 return true;
@@ -79,9 +87,15 @@ namespace Better.Operations.Runtime
 
         protected abstract void ExecuteNext(TBuffer buffer);
 
+        protected IEnumerable<TBuffer> GetAllExecutingBuffers()
+        {
+            var buffers = _executingBuffers.ToArray();
+            return buffers;
+        }
+
         public virtual void Dispose()
         {
-            _buffersQueue = null;
+            _scheduledBuffers.Clear();
         }
     }
 }
