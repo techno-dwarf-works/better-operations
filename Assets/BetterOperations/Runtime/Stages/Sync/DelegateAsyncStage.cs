@@ -37,7 +37,7 @@ namespace Better.Operations.Runtime.Stages
             _delegateGetter = delegateGetter;
         }
 
-        protected override void Execute(TBuffer buffer)
+        protected sealed override void Execute(TBuffer buffer)
         {
             if (ExecuteMode == ExecuteDelegateMode.SubDelegate)
             {

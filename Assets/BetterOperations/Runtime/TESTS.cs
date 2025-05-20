@@ -50,8 +50,8 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
         public void Test()
         {
             _jumpOperation = ValueAsyncOperationBuilder<Vector3, IJumpOperationMember>.Create()
-                .AppendNotification(member => member.OnPreJumpAsync)
-                .AppendNotification(member => member.OnPostJumpAsync)
+                // .AppendNotification(member => member.OnPreJumpAsync)
+                // .AppendNotification(member => member.OnPostJumpAsync)
                 .Build();
 
             // var jumpModif = new JumpModif();
