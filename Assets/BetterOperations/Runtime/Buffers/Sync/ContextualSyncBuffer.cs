@@ -6,7 +6,7 @@ namespace Better.Operations.Runtime.Buffers
     public class ContextualSyncBuffer<TContext, TMember> : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        public TContext Context { get; }
+        public TContext Context { get; set; }
 
         public ContextualSyncBuffer(IEnumerable<TMember> members, TContext context) : base(members)
         {
