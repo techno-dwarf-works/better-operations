@@ -1,5 +1,4 @@
-﻿using Better.Commons.Runtime.Extensions;
-using Better.Operations.Runtime.Adapters;
+﻿using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Stages;
@@ -62,23 +61,23 @@ namespace Better.Operations.Runtime.Builders
 
         #region Fallbacks
 
-        protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.OnFallback notification)
+        protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.OnFallback fallback)
         {
-            var stage = new FallbackSyncStage<TBuffer, TMember>(notification);
+            var stage = new FallbackSyncStage<TBuffer, TMember>(fallback);
             var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependFallback(FallbackSyncStage<TBuffer, TMember>.OnFallback notification)
+        public TBuilder PrependFallback(FallbackSyncStage<TBuffer, TMember>.OnFallback fallback)
         {
-            return InsertFallback(0, notification);
+            return InsertFallback(0, fallback);
         }
 
-        public TBuilder AppendFallback(FallbackSyncStage<TBuffer, TMember>.OnFallback notification)
+        public TBuilder AppendFallback(FallbackSyncStage<TBuffer, TMember>.OnFallback fallback)
         {
-            return InsertFallback(Adapters.Count, notification);
+            return InsertFallback(Adapters.Count, fallback);
         }
 
         protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
@@ -98,6 +97,48 @@ namespace Better.Operations.Runtime.Builders
         public TBuilder AppendFallback(FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
         {
             return InsertFallback(Adapters.Count, getter);
+        }
+
+        #endregion
+
+        #region Permissings
+
+        protected virtual TBuilder InsertPermissing(int index, PermissingSyncStage<TBuffer, TMember>.GetPermissionFlag getter)
+        {
+            var stage = new PermissingSyncStage<TBuffer, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, PermissingSyncStage<TBuffer, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(PermissingSyncStage<TBuffer, TMember>.GetPermissionFlag getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(PermissingSyncStage<TBuffer, TMember>.GetPermissionFlag getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertPermissing(int index, PermissingSyncStage<TBuffer, TMember>.GetDelegate getter)
+        {
+            var stage = new PermissingSyncStage<TBuffer, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, PermissingSyncStage<TBuffer, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(PermissingSyncStage<TBuffer, TMember>.GetDelegate getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(PermissingSyncStage<TBuffer, TMember>.GetDelegate getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
         }
 
         #endregion

@@ -45,19 +45,19 @@ namespace Better.Operations.Runtime.Stages
         protected abstract Task<PermissionFlag> GetPermissionFlagByAsync(TBuffer buffer, TCancellableDelegate subDelegate);
     }
 
-    public class PermissingAsyncStage<TBuffer, TMember> : PermissingAsyncStage<TBuffer, TMember, PermissingAsyncStage<TBuffer, TMember>.GetPermissingFlagAsync, PermissingAsyncStage<TBuffer, TMember>.GetTokenablePermissingFlagAsync>
+    public class PermissingAsyncStage<TBuffer, TMember> : PermissingAsyncStage<TBuffer, TMember, PermissingAsyncStage<TBuffer, TMember>.GetPermissingFlagAsync, PermissingAsyncStage<TBuffer, TMember>.GetPermissingFlagTokenableAsync>
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
         public delegate Task<PermissionFlag> GetPermissingFlagAsync();
 
-        public delegate Task<PermissionFlag> GetTokenablePermissingFlagAsync(CancellationToken cancellationToken);
+        public delegate Task<PermissionFlag> GetPermissingFlagTokenableAsync(CancellationToken cancellationToken);
 
         public PermissingAsyncStage(GetPermissingFlagAsync continuousSubDelegate) : base(continuousSubDelegate)
         {
         }
 
-        public PermissingAsyncStage(GetTokenablePermissingFlagAsync cancellableSubDelegate) : base(cancellableSubDelegate)
+        public PermissingAsyncStage(GetPermissingFlagTokenableAsync cancellableSubDelegate) : base(cancellableSubDelegate)
         {
         }
 
@@ -74,7 +74,7 @@ namespace Better.Operations.Runtime.Stages
             return subDelegate.Invoke();
         }
 
-        protected override Task<PermissionFlag> GetPermissionFlagByAsync(TBuffer buffer, GetTokenablePermissingFlagAsync subDelegate)
+        protected override Task<PermissionFlag> GetPermissionFlagByAsync(TBuffer buffer, GetPermissingFlagTokenableAsync subDelegate)
         {
             return subDelegate.Invoke(buffer.CancellationToken);
         }

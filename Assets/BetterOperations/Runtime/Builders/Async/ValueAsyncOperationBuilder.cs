@@ -95,42 +95,42 @@ namespace Better.Operations.Runtime.Builders
 
         #region Fallbacks
 
-        protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnFallbackAsync notification)
+        protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnFallbackAsync fallback)
         {
-            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(notification);
+            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(fallback);
             var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnFallbackAsync notification)
+        public TBuilder PrependFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnFallbackAsync fallback)
         {
-            return InsertFallback(0, notification);
+            return InsertFallback(0, fallback);
         }
 
-        public TBuilder AppendFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnFallbackAsync notification)
+        public TBuilder AppendFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnFallbackAsync fallback)
         {
-            return InsertFallback(Adapters.Count, notification);
+            return InsertFallback(Adapters.Count, fallback);
         }
 
-        protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnTokenableFallbackAsync notification)
+        protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnTokenableFallbackAsync fallback)
         {
-            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(notification);
+            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(fallback);
             var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnTokenableFallbackAsync notification)
+        public TBuilder PrependFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnTokenableFallbackAsync fallback)
         {
-            return InsertFallback(0, notification);
+            return InsertFallback(0, fallback);
         }
 
-        public TBuilder AppendFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnTokenableFallbackAsync notification)
+        public TBuilder AppendFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnTokenableFallbackAsync fallback)
         {
-            return InsertFallback(Adapters.Count, notification);
+            return InsertFallback(Adapters.Count, fallback);
         }
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
@@ -169,6 +169,86 @@ namespace Better.Operations.Runtime.Builders
         public TBuilder AppendFallback(ValueFallbackAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
         {
             return InsertFallback(Adapters.Count, getter);
+        }
+
+        #endregion
+
+        #region Permissings
+
+        protected virtual TBuilder InsertPermissing(int index, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagAsync getter)
+        {
+            var stage = new ValuePermissingAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValuePermissingAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagAsync getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagAsync getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertPermissing(int index, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagTokenableAsync getter)
+        {
+            var stage = new ValuePermissingAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValuePermissingAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagTokenableAsync getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagTokenableAsync getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertPermissing(int index, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
+        {
+            var stage = new ValuePermissingAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValuePermissingAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertPermissing(int index, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
+        {
+            var stage = new ValuePermissingAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValuePermissingAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
         }
 
         #endregion

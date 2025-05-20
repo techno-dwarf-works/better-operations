@@ -56,23 +56,23 @@ namespace Better.Operations.Runtime.Builders
 
         #region Fallbacks
 
-        protected virtual TBuilder InsertFallback(int index, ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback notification)
+        protected virtual TBuilder InsertFallback(int index, ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback fallback)
         {
-            var stage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(notification);
+            var stage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(fallback);
             var adapter = new SyncAdapter<TBuffer, ValueFallbackSyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback notification)
+        public TBuilder PrependFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback fallback)
         {
-            return InsertFallback(0, notification);
+            return InsertFallback(0, fallback);
         }
 
-        public TBuilder AppendFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback notification)
+        public TBuilder AppendFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback fallback)
         {
-            return InsertFallback(Adapters.Count, notification);
+            return InsertFallback(Adapters.Count, fallback);
         }
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
@@ -96,25 +96,67 @@ namespace Better.Operations.Runtime.Builders
 
         #endregion
 
+        #region Permissings
+
+        protected virtual TBuilder InsertPermissing(int index, ValuePermissingSyncStage<TBuffer, TValue, TMember>.GetPermissionFlag getter)
+        {
+            var stage = new ValuePermissingSyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValuePermissingSyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ValuePermissingSyncStage<TBuffer, TValue, TMember>.GetPermissionFlag getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ValuePermissingSyncStage<TBuffer, TValue, TMember>.GetPermissionFlag getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertPermissing(int index, ValuePermissingSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            var stage = new ValuePermissingSyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValuePermissingSyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ValuePermissingSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ValuePermissingSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        #endregion
+
         #region Modifies
 
-        protected virtual TBuilder InsertModify(int index, ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify notification)
+        protected virtual TBuilder InsertModify(int index, ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify modify)
         {
-            var stage = new ValueModifySyncStage<TBuffer, TValue, TMember>(notification);
+            var stage = new ValueModifySyncStage<TBuffer, TValue, TMember>(modify);
             var adapter = new SyncAdapter<TBuffer, ValueModifySyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependModify(ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify notification)
+        public TBuilder PrependModify(ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify modify)
         {
-            return InsertModify(0, notification);
+            return InsertModify(0, modify);
         }
 
-        public TBuilder AppendModify(ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify notification)
+        public TBuilder AppendModify(ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify modify)
         {
-            return InsertModify(Adapters.Count, notification);
+            return InsertModify(Adapters.Count, modify);
         }
 
         protected virtual TBuilder InsertModify(int index, ValueModifySyncStage<TBuffer, TValue, TMember>.GetDelegate getter)

@@ -30,19 +30,19 @@ namespace Better.Operations.Runtime.Stages
         }
     }
 
-    public class ContextualPermissingAsyncStage<TBuffer, TContext, TMember> : ContextualPermissingAsyncStage<TBuffer, TContext, TMember, ContextualPermissingAsyncStage<TBuffer, TContext, TMember>.GetPermissingFlagAsync, ContextualPermissingAsyncStage<TBuffer, TContext, TMember>.GetTokenablePermissingFlagAsync>
+    public class ContextualPermissingAsyncStage<TBuffer, TContext, TMember> : ContextualPermissingAsyncStage<TBuffer, TContext, TMember, ContextualPermissingAsyncStage<TBuffer, TContext, TMember>.GetPermissingFlagAsync, ContextualPermissingAsyncStage<TBuffer, TContext, TMember>.GetPermissingFlagTokenableAsync>
         where TBuffer : ContextualAsyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {
         public delegate Task<PermissionFlag> GetPermissingFlagAsync(TContext context);
 
-        public delegate Task<PermissionFlag> GetTokenablePermissingFlagAsync(TContext context, CancellationToken cancellationToken);
+        public delegate Task<PermissionFlag> GetPermissingFlagTokenableAsync(TContext context, CancellationToken cancellationToken);
 
         public ContextualPermissingAsyncStage(GetPermissingFlagAsync continuousSubDelegate) : base(continuousSubDelegate)
         {
         }
 
-        public ContextualPermissingAsyncStage(GetTokenablePermissingFlagAsync cancellableSubDelegate) : base(cancellableSubDelegate)
+        public ContextualPermissingAsyncStage(GetPermissingFlagTokenableAsync cancellableSubDelegate) : base(cancellableSubDelegate)
         {
         }
 
@@ -59,7 +59,7 @@ namespace Better.Operations.Runtime.Stages
             return subDelegate.Invoke(buffer.Context);
         }
 
-        protected override Task<PermissionFlag> GetPermissionFlagByAsync(TBuffer buffer, GetTokenablePermissingFlagAsync subDelegate)
+        protected override Task<PermissionFlag> GetPermissionFlagByAsync(TBuffer buffer, GetPermissingFlagTokenableAsync subDelegate)
         {
             return subDelegate.Invoke(buffer.Context, buffer.CancellationToken);
         }

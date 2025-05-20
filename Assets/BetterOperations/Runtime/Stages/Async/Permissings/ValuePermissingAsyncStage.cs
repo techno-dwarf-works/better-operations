@@ -31,20 +31,20 @@ namespace Better.Operations.Runtime.Stages
         }
     }
 
-    public class ValuePermissingAsyncStage<TBuffer, TValue, TMember> : ValuePermissingAsyncStage<TBuffer, TValue, TMember, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagAsync, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetTokenablePermissingFlagAsync>
+    public class ValuePermissingAsyncStage<TBuffer, TValue, TMember> : ValuePermissingAsyncStage<TBuffer, TValue, TMember, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagAsync, ValuePermissingAsyncStage<TBuffer, TValue, TMember>.GetPermissingFlagTokenableAsync>
         where TBuffer : ValueAsyncBuffer<TValue, TMember>
         where TValue : struct
         where TMember : IOperationMember
     {
         public delegate Task<PermissionFlag> GetPermissingFlagAsync(TValue sourceValue, TValue modifiedValue);
 
-        public delegate Task<PermissionFlag> GetTokenablePermissingFlagAsync(TValue sourceValue, TValue modifiedValue, CancellationToken cancellationToken);
+        public delegate Task<PermissionFlag> GetPermissingFlagTokenableAsync(TValue sourceValue, TValue modifiedValue, CancellationToken cancellationToken);
 
         public ValuePermissingAsyncStage(GetPermissingFlagAsync continuousSubDelegate) : base(continuousSubDelegate)
         {
         }
 
-        public ValuePermissingAsyncStage(GetTokenablePermissingFlagAsync cancellableSubDelegate) : base(cancellableSubDelegate)
+        public ValuePermissingAsyncStage(GetPermissingFlagTokenableAsync cancellableSubDelegate) : base(cancellableSubDelegate)
         {
         }
 
@@ -61,7 +61,7 @@ namespace Better.Operations.Runtime.Stages
             return subDelegate.Invoke(buffer.SourceValue, buffer.ModifiedValue);
         }
 
-        protected override Task<PermissionFlag> GetPermissionFlagByAsync(TBuffer buffer, GetTokenablePermissingFlagAsync subDelegate)
+        protected override Task<PermissionFlag> GetPermissionFlagByAsync(TBuffer buffer, GetPermissingFlagTokenableAsync subDelegate)
         {
             return subDelegate.Invoke(buffer.SourceValue, buffer.ModifiedValue, buffer.CancellationToken);
         }

@@ -55,23 +55,23 @@ namespace Better.Operations.Runtime.Builders
 
         #region Fallbacks
 
-        protected virtual TBuilder InsertFallback(int index, ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback notification)
+        protected virtual TBuilder InsertFallback(int index, ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback fallback)
         {
-            var stage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(notification);
+            var stage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(fallback);
             var adapter = new SyncAdapter<TBuffer, ContextualFallbackSyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback notification)
+        public TBuilder PrependFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback fallback)
         {
-            return InsertFallback(0, notification);
+            return InsertFallback(0, fallback);
         }
 
-        public TBuilder AppendFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback notification)
+        public TBuilder AppendFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback fallback)
         {
-            return InsertFallback(Adapters.Count, notification);
+            return InsertFallback(Adapters.Count, fallback);
         }
 
         protected virtual TBuilder InsertFallback(int index, ContextualFallbackSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
@@ -95,25 +95,67 @@ namespace Better.Operations.Runtime.Builders
 
         #endregion
 
+        #region Permissings
+
+        protected virtual TBuilder InsertPermissing(int index, ContextualPermissingSyncStage<TBuffer, TContext, TMember>.GetPermissionFlag getter)
+        {
+            var stage = new ContextualPermissingSyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ContextualPermissingSyncStage<TBuffer, TContext, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ContextualPermissingSyncStage<TBuffer, TContext, TMember>.GetPermissionFlag getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ContextualPermissingSyncStage<TBuffer, TContext, TMember>.GetPermissionFlag getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertPermissing(int index, ContextualPermissingSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            var stage = new ContextualPermissingSyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ContextualPermissingSyncStage<TBuffer, TContext, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependPermissing(ContextualPermissingSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            return InsertPermissing(0, getter);
+        }
+
+        public TBuilder AppendPermissing(ContextualPermissingSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            return InsertPermissing(Adapters.Count, getter);
+        }
+
+        #endregion
+
         #region Modifies
 
-        protected virtual TBuilder InsertModify(int index, ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify notification)
+        protected virtual TBuilder InsertModify(int index, ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify modify)
         {
-            var stage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(notification);
+            var stage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(modify);
             var adapter = new SyncAdapter<TBuffer, ContextualModifySyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify notification)
+        public TBuilder PrependModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify modify)
         {
-            return InsertModify(0, notification);
+            return InsertModify(0, modify);
         }
 
-        public TBuilder AppendModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify notification)
+        public TBuilder AppendModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify modify)
         {
-            return InsertModify(Adapters.Count, notification);
+            return InsertModify(Adapters.Count, modify);
         }
 
         protected virtual TBuilder InsertModify(int index, ContextualModifySyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
