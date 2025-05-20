@@ -17,7 +17,7 @@ namespace Better.Operations.Runtime.Stages
 
         public sealed override void Execute(TBuffer buffer)
         {
-            var message = $"{OriginMessage}\n{nameof(buffer)}:{buffer}";
+            var message = $"{OriginMessage}\nWith {nameof(buffer)}:{buffer}";
             Debug.unityLogger.Log(LogType, message);
         }
     }

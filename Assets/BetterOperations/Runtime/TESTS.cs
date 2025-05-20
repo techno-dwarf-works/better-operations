@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Builders;
 using Better.Operations.Runtime.Extensions;
 using Better.Operations.Runtime.Instructions;
@@ -52,7 +53,7 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
                 .AppendNotification(member => member.OnPreJumpAsync)
                 .AppendNotification(member => member.OnPostJumpAsync)
                 .Build();
-            
+
             // var jumpModif = new JumpModif();
             // var crouchModif = new CrouchModif();
             // var registry = (IOperationMemberRegistry<IOperationModifier>)this;

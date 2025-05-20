@@ -9,37 +9,37 @@ namespace Better.Operations.Runtime.Stages
         where TMember : IOperationMember
         where TDelegate : Delegate
     {
-        protected enum ExecuteMode
+        protected enum ExecuteDelegateMode
         {
             SubDelegate,
-            DelegateGetter,
+            MemberDelegate,
         }
 
         private TDelegate _subDelegate;
         private GetDelegate _delegateGetter;
 
-        protected ExecuteMode Mode { get; }
+        protected ExecuteDelegateMode ExecuteMode { get; }
 
         public delegate TDelegate GetDelegate(TMember member);
 
-        private DelegateSyncStage(ExecuteMode mode)
+        private DelegateSyncStage(ExecuteDelegateMode executeMode)
         {
-            Mode = mode;
+            ExecuteMode = executeMode;
         }
 
-        protected DelegateSyncStage(TDelegate subDelegate) : this(ExecuteMode.SubDelegate)
+        protected DelegateSyncStage(TDelegate subDelegate) : this(ExecuteDelegateMode.SubDelegate)
         {
             _subDelegate = subDelegate;
         }
 
-        protected DelegateSyncStage(GetDelegate delegateGetter) : this(ExecuteMode.DelegateGetter)
+        protected DelegateSyncStage(GetDelegate delegateGetter) : this(ExecuteDelegateMode.MemberDelegate)
         {
             _delegateGetter = delegateGetter;
         }
 
         protected override void Execute(TBuffer buffer)
         {
-            if (Mode == ExecuteMode.SubDelegate)
+            if (ExecuteMode == ExecuteDelegateMode.SubDelegate)
             {
                 Execute(buffer, _subDelegate);
                 return;
