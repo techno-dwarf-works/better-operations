@@ -12,21 +12,6 @@ namespace Better.Operations.Runtime.Builders
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        protected virtual TStage StageAt<TStage>(int index)
-            where TStage : AsyncStage<TBuffer, TMember>, new()
-        {
-            var joinIndex = index - 1;
-            var adapter = Adapters.ElementAtOrDefault(joinIndex, true);
-            if (adapter?.Stage is not TStage stage)
-            {
-                stage = new();
-                adapter = new AsyncAdapter<TBuffer, TStage, TMember>(stage);
-                Adapters.Insert(index, adapter);
-            }
-
-            return stage;
-        }
-
         #region Notifications
 
         protected virtual TBuilder InsertNotification(int index, NotificationAsyncStage<TBuffer, TMember>.OnNotificationAsync notification)
@@ -103,6 +88,86 @@ namespace Better.Operations.Runtime.Builders
         public TBuilder AppendNotification(NotificationAsyncStage<TBuffer, TMember>.GetCancellableMemberDelegate getter)
         {
             return InsertNotification(Adapters.Count, getter);
+        }
+
+        #endregion
+        
+        #region Fallbacks
+
+        protected virtual TBuilder InsertFallback(int index, FallbackAsyncStage<TBuffer, TMember>.OnFallbackAsync notification)
+        {
+            var notificationAsyncStage = new FallbackAsyncStage<TBuffer, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, FallbackAsyncStage<TBuffer, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(FallbackAsyncStage<TBuffer, TMember>.OnFallbackAsync notification)
+        {
+            return InsertFallback(0, notification);
+        }
+
+        public TBuilder AppendFallback(FallbackAsyncStage<TBuffer, TMember>.OnFallbackAsync notification)
+        {
+            return InsertFallback(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, FallbackAsyncStage<TBuffer, TMember>.OnTokenableFallbackAsync notification)
+        {
+            var notificationAsyncStage = new FallbackAsyncStage<TBuffer, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, FallbackAsyncStage<TBuffer, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(FallbackAsyncStage<TBuffer, TMember>.OnTokenableFallbackAsync notification)
+        {
+            return InsertFallback(0, notification);
+        }
+
+        public TBuilder AppendFallback(FallbackAsyncStage<TBuffer, TMember>.OnTokenableFallbackAsync notification)
+        {
+            return InsertFallback(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, FallbackAsyncStage<TBuffer, TMember>.GetContinuousMemberDelegate getter)
+        {
+            var notificationAsyncStage = new FallbackAsyncStage<TBuffer, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, FallbackAsyncStage<TBuffer, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(FallbackAsyncStage<TBuffer, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertFallback(0, getter);
+        }
+
+        public TBuilder AppendFallback(FallbackAsyncStage<TBuffer, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertFallback(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, FallbackAsyncStage<TBuffer, TMember>.GetCancellableMemberDelegate getter)
+        {
+            var notificationAsyncStage = new FallbackAsyncStage<TBuffer, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, FallbackAsyncStage<TBuffer, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(FallbackAsyncStage<TBuffer, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertFallback(0, getter);
+        }
+
+        public TBuilder AppendFallback(FallbackAsyncStage<TBuffer, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertFallback(Adapters.Count, getter);
         }
 
         #endregion

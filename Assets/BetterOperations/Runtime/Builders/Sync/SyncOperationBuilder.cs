@@ -53,6 +53,48 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Fallbacks
+
+        protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.OnFallback notification)
+        {
+            var notificationSyncStage = new FallbackSyncStage<TBuffer, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(FallbackSyncStage<TBuffer, TMember>.OnFallback notification)
+        {
+            return InsertFallback(0, notification);
+        }
+
+        public TBuilder AppendFallback(FallbackSyncStage<TBuffer, TMember>.OnFallback notification)
+        {
+            return InsertFallback(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
+        {
+            var notificationSyncStage = new FallbackSyncStage<TBuffer, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
+        {
+            return InsertFallback(0, getter);
+        }
+
+        public TBuilder AppendFallback(FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
+        {
+            return InsertFallback(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class SyncOperationBuilder<TBuilder, TMember> : SyncOperationBuilder<TBuilder, SyncOperation<TMember>, SyncBuffer<TMember>, TMember>

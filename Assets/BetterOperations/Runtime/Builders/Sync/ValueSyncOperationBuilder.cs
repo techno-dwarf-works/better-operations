@@ -53,6 +53,48 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Fallbacks
+
+        protected virtual TBuilder InsertFallback(int index, ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback notification)
+        {
+            var notificationSyncStage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ValueFallbackSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback notification)
+        {
+            return InsertFallback(0, notification);
+        }
+
+        public TBuilder AppendFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback notification)
+        {
+            return InsertFallback(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, ValueFallbackSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            var notificationSyncStage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValueFallbackSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            return InsertFallback(0, getter);
+        }
+
+        public TBuilder AppendFallback(ValueFallbackSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            return InsertFallback(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class ValueSyncOperationBuilder<TBuilder, TValue, TMember> : ValueSyncOperationBuilder<TBuilder, ValueSyncOperation<TValue, TMember>, ValueSyncBuffer<TValue, TMember>, TValue, TMember>

@@ -91,6 +91,86 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Fallbacks
+
+        protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnFallbackAsync notification)
+        {
+            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnFallbackAsync notification)
+        {
+            return InsertFallback(0, notification);
+        }
+
+        public TBuilder AppendFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnFallbackAsync notification)
+        {
+            return InsertFallback(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnTokenableFallbackAsync notification)
+        {
+            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnTokenableFallbackAsync notification)
+        {
+            return InsertFallback(0, notification);
+        }
+
+        public TBuilder AppendFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnTokenableFallbackAsync notification)
+        {
+            return InsertFallback(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
+        {
+            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertFallback(0, getter);
+        }
+
+        public TBuilder AppendFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertFallback(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
+        {
+            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertFallback(0, getter);
+        }
+
+        public TBuilder AppendFallback(ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertFallback(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class ContextualAsyncOperationBuilder<TBuilder, TContext, TMember> : ContextualAsyncOperationBuilder<TBuilder, ContextualAsyncOperation<TContext, TMember>, ContextualAsyncBuffer<TContext, TMember>, TContext, TMember>

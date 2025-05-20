@@ -52,6 +52,48 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Fallbacks
+
+        protected virtual TBuilder InsertFallback(int index, ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback notification)
+        {
+            var notificationSyncStage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ContextualFallbackSyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback notification)
+        {
+            return InsertFallback(0, notification);
+        }
+
+        public TBuilder AppendFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback notification)
+        {
+            return InsertFallback(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertFallback(int index, ContextualFallbackSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            var notificationSyncStage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ContextualFallbackSyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            return InsertFallback(0, getter);
+        }
+
+        public TBuilder AppendFallback(ContextualFallbackSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            return InsertFallback(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class ContextualSyncOperationBuilder<TBuilder, TContext, TMember> : ContextualSyncOperationBuilder<TBuilder, ContextualSyncOperation<TContext, TMember>, ContextualSyncBuffer<TContext, TMember>, TContext, TMember>
