@@ -1,4 +1,5 @@
-﻿using Better.Operations.Runtime.Buffers;
+﻿using Better.Operations.Runtime.Adapters;
+using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Stages;
 
@@ -13,15 +14,11 @@ namespace Better.Operations.Runtime.Builders
     {
         #region Notifications
 
-        private ValueNotificationSyncStage<TBuffer, TValue, TMember> NotificationStageAt(int index)
-        {
-            return StageAt<ValueNotificationSyncStage<TBuffer, TValue, TMember>>(index);
-        }
-
         protected virtual TBuilder InsertNotification(int index, ValueNotificationSyncStage<TBuffer, TValue, TMember>.OnNotification notification)
         {
-            var notificationSyncStage = NotificationStageAt(index);
-            notificationSyncStage.Register(notification);
+            var notificationSyncStage = new ValueNotificationSyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ValueNotificationSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
@@ -36,20 +33,21 @@ namespace Better.Operations.Runtime.Builders
             return InsertNotification(Adapters.Count, notification);
         }
 
-        protected virtual TBuilder InsertNotification(int index, ValueNotificationSyncStage<TBuffer, TValue, TMember>.GetNotificationBy getter)
+        protected virtual TBuilder InsertNotification(int index, ValueNotificationSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = NotificationStageAt(index);
-            notificationSyncStage.Register(getter);
+            var notificationSyncStage = new ValueNotificationSyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValueNotificationSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependNotification(ValueNotificationSyncStage<TBuffer, TValue, TMember>.GetNotificationBy getter)
+        public TBuilder PrependNotification(ValueNotificationSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
         {
             return InsertNotification(0, getter);
         }
 
-        public TBuilder AppendNotification(ValueNotificationSyncStage<TBuffer, TValue, TMember>.GetNotificationBy getter)
+        public TBuilder AppendNotification(ValueNotificationSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
         {
             return InsertNotification(Adapters.Count, getter);
         }

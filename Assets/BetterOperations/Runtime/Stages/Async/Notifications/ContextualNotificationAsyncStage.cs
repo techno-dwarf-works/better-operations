@@ -29,19 +29,19 @@ namespace Better.Operations.Runtime.Stages
         }
     }
 
-    public class ContextualNotificationAsyncStage<TBuffer, TContext, TMember> : ContextualNotificationAsyncStage<TBuffer, TContext, TMember, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.OnNotification, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.OnTokenableNotification>
+    public class ContextualNotificationAsyncStage<TBuffer, TContext, TMember> : ContextualNotificationAsyncStage<TBuffer, TContext, TMember, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.OnNotificationAsync, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.OnTokenableNotificationAsync>
         where TBuffer : ContextualAsyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {
-        public delegate Task OnNotification(TContext context);
+        public delegate Task OnNotificationAsync(TContext context);
 
-        public delegate Task OnTokenableNotification(TContext context, CancellationToken cancellationToken);
+        public delegate Task OnTokenableNotificationAsync(TContext context, CancellationToken cancellationToken);
 
-        public ContextualNotificationAsyncStage(OnNotification continuousSubDelegate) : base(continuousSubDelegate)
+        public ContextualNotificationAsyncStage(OnNotificationAsync continuousSubDelegate) : base(continuousSubDelegate)
         {
         }
 
-        public ContextualNotificationAsyncStage(OnTokenableNotification cancellableSubDelegate) : base(cancellableSubDelegate)
+        public ContextualNotificationAsyncStage(OnTokenableNotificationAsync cancellableSubDelegate) : base(cancellableSubDelegate)
         {
         }
 
@@ -53,12 +53,12 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        protected override Task ExecuteSubDelegateAsync(TBuffer buffer, OnNotification subDelegate)
+        protected override Task ExecuteSubDelegateAsync(TBuffer buffer, OnNotificationAsync subDelegate)
         {
             return subDelegate.Invoke(buffer.Context);
         }
 
-        protected override Task ExecuteSubDelegateAsync(TBuffer buffer, OnTokenableNotification subDelegate)
+        protected override Task ExecuteSubDelegateAsync(TBuffer buffer, OnTokenableNotificationAsync subDelegate)
         {
             return subDelegate.Invoke(buffer.Context, buffer.CancellationToken);
         }

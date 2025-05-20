@@ -15,15 +15,11 @@ namespace Better.Operations.Runtime.Builders
     {
         #region Notifications
 
-        private ValueNotificationAsyncStage<TBuffer, TValue, TMember> NotificationStageAt(int index)
-        {
-            return StageAt<ValueNotificationAsyncStage<TBuffer, TValue, TMember>>(index);
-        }
-
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnNotificationAsync notification)
         {
-            var notificationAsyncStage = NotificationStageAt(index);
-            notificationAsyncStage.Register(notification);
+            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
@@ -38,56 +34,59 @@ namespace Better.Operations.Runtime.Builders
             return InsertNotification(Adapters.Count, notification);
         }
 
-        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotificationBy getter)
+        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync notification)
         {
-            var notificationAsyncStage = NotificationStageAt(index);
-            notificationAsyncStage.Register(getter);
+            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotificationBy getter)
+        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync notification)
+        {
+            return InsertNotification(0, notification);
+        }
+
+        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync notification)
+        {
+            return InsertNotification(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
+        {
+            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
         {
             return InsertNotification(0, getter);
         }
 
-        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetNotificationBy getter)
+        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
         {
             return InsertNotification(Adapters.Count, getter);
         }
 
-        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotificationBy getter)
+        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
         {
-            var notificationAsyncStage = NotificationStageAt(index);
-            notificationAsyncStage.Register(getter);
+            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotificationBy getter)
+        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
         {
             return InsertNotification(0, getter);
         }
 
-        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetTokenableNotificationBy getter)
-        {
-            return InsertNotification(Adapters.Count, getter);
-        }
-
-        protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync getter)
-        {
-            var notificationAsyncStage = NotificationStageAt(index);
-            notificationAsyncStage.Register(getter);
-
-            return (TBuilder)this;
-        }
-
-        public TBuilder PrependNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync getter)
-        {
-            return InsertNotification(0, getter);
-        }
-
-        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync getter)
+        public TBuilder AppendNotification(ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
         {
             return InsertNotification(Adapters.Count, getter);
         }
