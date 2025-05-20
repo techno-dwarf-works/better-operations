@@ -1,127 +1,66 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Stages
 {
-    public class NotificationAsyncStage<TBuffer, TMember> : AllowableAsyncStage<TBuffer, TMember>
+    public abstract class NotificationAsyncStage<TBuffer, TMember, TContinuousDelegate, TCancellableDelegate> : DelegateAsyncStage<TBuffer, TMember, TContinuousDelegate, TCancellableDelegate>
+        where TBuffer : AsyncBuffer<TMember>
+        where TMember : IOperationMember
+        where TContinuousDelegate : Delegate
+        where TCancellableDelegate : Delegate
+    {
+        protected NotificationAsyncStage(TContinuousDelegate continuousSubDelegate) : base(continuousSubDelegate)
+        {
+        }
+
+        protected NotificationAsyncStage(TCancellableDelegate cancellableSubDelegate) : base(cancellableSubDelegate)
+        {
+        }
+
+        protected NotificationAsyncStage(GetContinuousMemberDelegate continuousDelegateGetter) : base(continuousDelegateGetter)
+        {
+        }
+
+        protected NotificationAsyncStage(GetCancellableMemberDelegate cancellableDelegateGetter) : base(cancellableDelegateGetter)
+        {
+        }
+    }
+
+    public class NotificationAsyncStage<TBuffer, TMember> : NotificationAsyncStage<TBuffer, TMember, NotificationAsyncStage<TBuffer, TMember>.OnNotificationAsync, NotificationAsyncStage<TBuffer, TMember>.OnTokenableNotificationAsync>
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
-        private HashSet<OnNotificationAsync> _notifications;
-        private HashSet<OnTokenableNotificationAsync> _tokenableNotifications;
-        private HashSet<GetNotification> _notificationGetters;
-        private HashSet<GetTokenableNotification> _tokenableNotificationGetters;
-        private HashSet<GetNotificationBy> _memberNotificationGetters;
-        private HashSet<GetTokenableNotificationBy> _memberTokenableNotificationGetters;
-
         public delegate Task OnNotificationAsync();
 
         public delegate Task OnTokenableNotificationAsync(CancellationToken cancellationToken);
 
-        public delegate OnNotificationAsync GetNotification();
-
-        public delegate OnTokenableNotificationAsync GetTokenableNotification();
-
-        public delegate OnNotificationAsync GetNotificationBy(TMember member);
-
-        public delegate OnTokenableNotificationAsync GetTokenableNotificationBy(TMember member);
-
-        public NotificationAsyncStage()
+        public NotificationAsyncStage(OnNotificationAsync continuousSubDelegate) : base(continuousSubDelegate)
         {
-            _notifications = new();
-            _tokenableNotifications = new();
-
-            _notificationGetters = new();
-            _tokenableNotificationGetters = new();
-            _memberNotificationGetters = new();
-            _memberTokenableNotificationGetters = new();
         }
 
-        public void Register(OnNotificationAsync notification) => _notifications.Add(notification);
-        public void Register(OnTokenableNotificationAsync notification) => _tokenableNotifications.Add(notification);
-        public void Register(GetNotification getter) => _notificationGetters.Add(getter);
-        public void Register(GetTokenableNotification getter) => _tokenableNotificationGetters.Add(getter);
-        public void Register(GetNotificationBy getter) => _memberNotificationGetters.Add(getter);
-        public void Register(GetTokenableNotificationBy getter) => _memberTokenableNotificationGetters.Add(getter);
-
-        protected override Task ExecuteAsync(TBuffer buffer)
+        public NotificationAsyncStage(OnTokenableNotificationAsync cancellableSubDelegate) : base(cancellableSubDelegate)
         {
-            var subTasks = new List<Task>(6);
-
-            var notificationsTask = ExecuteNotificationsAsync(buffer);
-            subTasks.Add(notificationsTask);
-
-            var tokenableNotificationsTask = ExecuteTokenableNotificationsAsync(buffer);
-            subTasks.Add(tokenableNotificationsTask);
-
-            var notificationsByTask = ExecuteNotificationsByAsync(buffer);
-            subTasks.Add(notificationsByTask);
-
-            var tokenableNotificationsByTask = ExecuteTokenableNotificationsByAsync(buffer);
-            subTasks.Add(tokenableNotificationsByTask);
-
-            var memberNotificationsByTask = ExecuteMemberNotificationsByAsync(buffer);
-            subTasks.Add(memberNotificationsByTask);
-
-            var memberTokenableNotificationsByTask = ExecuteMemberTokenableNotificationsByAsync(buffer);
-            subTasks.Add(memberTokenableNotificationsByTask);
-
-            return subTasks.WhenAll();
         }
 
-        private Task ExecuteNotificationsAsync(TBuffer buffer)
+        public NotificationAsyncStage(GetContinuousMemberDelegate continuousDelegateGetter) : base(continuousDelegateGetter)
         {
-            var task = _notifications.Select(notification => notification.Invoke()).WhenAll();
-            return task;
         }
 
-        private Task ExecuteTokenableNotificationsAsync(TBuffer buffer)
+        public NotificationAsyncStage(GetCancellableMemberDelegate cancellableDelegateGetter) : base(cancellableDelegateGetter)
         {
-            var task = _tokenableNotifications.Select(notification => notification.Invoke(buffer.CancellationToken)).WhenAll();
-            return task;
         }
 
-        private Task ExecuteNotificationsByAsync(TBuffer buffer)
+        protected override Task ExecuteSubDelegateAsync(TBuffer buffer, OnNotificationAsync subDelegate)
         {
-            var task = _notificationGetters.Select(getter => getter.Invoke())
-                .Select(notification => notification.Invoke())
-                .WhenAll();
-
-            return task;
+            return subDelegate.Invoke();
         }
 
-        private Task ExecuteTokenableNotificationsByAsync(TBuffer buffer)
+        protected override Task ExecuteSubDelegateAsync(TBuffer buffer, OnTokenableNotificationAsync subDelegate)
         {
-            var task = _tokenableNotificationGetters.Select(getter => getter.Invoke())
-                .Select(notification => notification.Invoke(buffer.CancellationToken))
-                .WhenAll();
-
-            return task;
-        }
-
-        private Task ExecuteMemberNotificationsByAsync(TBuffer buffer)
-        {
-            var task = buffer.Members.SelectMany(member => _memberNotificationGetters
-                    .Select(getter => getter.Invoke(member))
-                    .Select(notification => notification.Invoke()))
-                .WhenAll();
-
-            return task;
-        }
-
-        private Task ExecuteMemberTokenableNotificationsByAsync(TBuffer buffer)
-        {
-            var task = buffer.Members.SelectMany(member => _memberTokenableNotificationGetters
-                    .Select(getter => getter.Invoke(member))
-                    .Select(notification => notification.Invoke(buffer.CancellationToken)))
-                .WhenAll();
-
-            return task;
+            return subDelegate.Invoke(buffer.CancellationToken);
         }
     }
 }

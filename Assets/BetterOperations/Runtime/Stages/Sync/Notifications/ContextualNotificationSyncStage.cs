@@ -1,54 +1,40 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Better.Operations.Runtime.Buffers;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Stages
 {
-    public class ContextualNotificationSyncStage<TBuffer, TContext, TMember> : AllowableSyncStage<TBuffer, TMember>
+    public abstract class ContextualNotificationSyncStage<TBuffer, TContext, TMember, TDelegate> : NotificationSyncStage<TBuffer, TMember, TDelegate>
+        where TBuffer : ContextualSyncBuffer<TContext, TMember>
+        where TMember : IOperationMember
+        where TDelegate : Delegate
+    {
+        protected ContextualNotificationSyncStage(TDelegate subDelegate) : base(subDelegate)
+        {
+        }
+
+        protected ContextualNotificationSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        {
+        }
+    }
+
+    public class ContextualNotificationSyncStage<TBuffer, TContext, TMember> : ContextualNotificationSyncStage<TBuffer, TContext, TMember, ContextualNotificationSyncStage<TBuffer, TContext, TMember>.OnNotification>
         where TBuffer : ContextualSyncBuffer<TContext, TMember>
         where TMember : IOperationMember
     {
-        private OnNotification _notification;
-        private HashSet<GetNotificationBy> _memberNotificationGetters;
-
         public delegate void OnNotification(TContext context);
 
-        public delegate OnNotification GetNotificationBy(TMember member);
-
-        public ContextualNotificationSyncStage()
+        public ContextualNotificationSyncStage(OnNotification subDelegate) : base(subDelegate)
         {
-            _memberNotificationGetters = new();
         }
 
-        public void Register(OnNotification notification) => _notification += notification;
-        public void Register(GetNotificationBy getter) => _memberNotificationGetters.Add(getter);
-
-        protected override void Execute(TBuffer buffer)
+        public ContextualNotificationSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
         {
-            ExecuteNotification(buffer);
-            ExecuteMembersNotification(buffer);
         }
 
-        private void ExecuteNotification(TBuffer buffer)
+        protected override void Execute(TBuffer buffer, OnNotification subDelegate)
         {
-            _notification?.Invoke(buffer.Context);
-        }
-
-        private void ExecuteMembersNotification(TBuffer buffer)
-        {
-            if (_memberNotificationGetters == null)
-            {
-                return;
-            }
-
-            foreach (var memberNotificationGetter in _memberNotificationGetters)
-            {
-                foreach (var member in buffer.Members)
-                {
-                    var notification = memberNotificationGetter.Invoke(member);
-                    notification.Invoke(buffer.Context);
-                }
-            }
+            subDelegate.Invoke(buffer.Context);
         }
     }
 }
