@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Better.Operations.Runtime.Adapters;
 using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Stages;
 using UnityEngine;
 
 namespace Better.Operations.Runtime.Builders
@@ -20,6 +21,31 @@ namespace Better.Operations.Runtime.Builders
             Adapters = new();
             IsMutable = true;
         }
+
+        protected abstract TAdapter CreateContractlessAdapter(ContractlessStage<TBuffer> stage);
+
+        #region Logs
+
+        protected virtual TBuilder InsertLog(int index, string message, LogType logType)
+        {
+            var stage = new LogContractlessStage<TBuffer>(message, logType);
+            var adapter = CreateContractlessAdapter(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependLog(string message, LogType logType = LogType.Log)
+        {
+            return InsertLog(0, message, logType);
+        }
+
+        public TBuilder AppendLog(string message, LogType logType = LogType.Log)
+        {
+            return InsertLog(0, message, logType);
+        }
+
+        #endregion
 
         public TOperation Build()
         {

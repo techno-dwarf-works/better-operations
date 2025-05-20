@@ -12,12 +12,18 @@ namespace Better.Operations.Runtime.Builders
         where TBuffer : SyncBuffer<TMember>
         where TMember : IOperationMember
     {
+        protected override SyncAdapter<TBuffer, TMember> CreateContractlessAdapter(ContractlessStage<TBuffer> stage)
+        {
+            var adapter = new ContractlessSyncAdapter<TBuffer, ContractlessStage<TBuffer>, TMember>(stage);
+            return adapter;
+        }
+
         #region Notifications
 
         protected virtual TBuilder InsertNotification(int index, NotificationSyncStage<TBuffer, TMember>.OnNotification notification)
         {
-            var notificationSyncStage = new NotificationSyncStage<TBuffer, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, NotificationSyncStage<TBuffer, TMember>, TMember>(notificationSyncStage);
+            var stage = new NotificationSyncStage<TBuffer, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, NotificationSyncStage<TBuffer, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -35,8 +41,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, NotificationSyncStage<TBuffer, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new NotificationSyncStage<TBuffer, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, NotificationSyncStage<TBuffer, TMember>, TMember>(notificationSyncStage);
+            var stage = new NotificationSyncStage<TBuffer, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, NotificationSyncStage<TBuffer, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -58,8 +64,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.OnFallback notification)
         {
-            var notificationSyncStage = new FallbackSyncStage<TBuffer, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(notificationSyncStage);
+            var stage = new FallbackSyncStage<TBuffer, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -77,8 +83,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new FallbackSyncStage<TBuffer, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(notificationSyncStage);
+            var stage = new FallbackSyncStage<TBuffer, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;

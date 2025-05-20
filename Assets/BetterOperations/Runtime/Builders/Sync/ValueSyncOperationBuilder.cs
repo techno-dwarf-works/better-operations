@@ -16,8 +16,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationSyncStage<TBuffer, TValue, TMember>.OnNotification notification)
         {
-            var notificationSyncStage = new ValueNotificationSyncStage<TBuffer, TValue, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, ValueNotificationSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            var stage = new ValueNotificationSyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ValueNotificationSyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -35,8 +35,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new ValueNotificationSyncStage<TBuffer, TValue, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, ValueNotificationSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            var stage = new ValueNotificationSyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValueNotificationSyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -58,8 +58,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackSyncStage<TBuffer, TValue, TMember>.OnFallback notification)
         {
-            var notificationSyncStage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, ValueFallbackSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            var stage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ValueFallbackSyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -77,8 +77,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackSyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, ValueFallbackSyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            var stage = new ValueFallbackSyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValueFallbackSyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -100,8 +100,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertModify(int index, ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify notification)
         {
-            var notificationSyncStage = new ValueModifySyncStage<TBuffer, TValue, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, ValueModifySyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            var stage = new ValueModifySyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ValueModifySyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -119,8 +119,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertModify(int index, ValueModifySyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new ValueModifySyncStage<TBuffer, TValue, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, ValueModifySyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            var stage = new ValueModifySyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValueModifySyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;

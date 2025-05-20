@@ -15,8 +15,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ContextualNotificationSyncStage<TBuffer, TContext, TMember>.OnNotification notification)
         {
-            var notificationSyncStage = new ContextualNotificationSyncStage<TBuffer, TContext, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, ContextualNotificationSyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            var stage = new ContextualNotificationSyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ContextualNotificationSyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -34,8 +34,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ContextualNotificationSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new ContextualNotificationSyncStage<TBuffer, TContext, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, ContextualNotificationSyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            var stage = new ContextualNotificationSyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ContextualNotificationSyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -57,8 +57,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ContextualFallbackSyncStage<TBuffer, TContext, TMember>.OnFallback notification)
         {
-            var notificationSyncStage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, ContextualFallbackSyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            var stage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ContextualFallbackSyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -76,8 +76,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ContextualFallbackSyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, ContextualFallbackSyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            var stage = new ContextualFallbackSyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ContextualFallbackSyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -99,8 +99,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertModify(int index, ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify notification)
         {
-            var notificationSyncStage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(notification);
-            var adapter = new SyncAdapter<TBuffer, ContextualModifySyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            var stage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ContextualModifySyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -118,8 +118,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertModify(int index, ContextualModifySyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
         {
-            var notificationSyncStage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(getter);
-            var adapter = new SyncAdapter<TBuffer, ContextualModifySyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            var stage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ContextualModifySyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;

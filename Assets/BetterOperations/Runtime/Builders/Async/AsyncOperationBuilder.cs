@@ -11,6 +11,14 @@ namespace Better.Operations.Runtime.Builders
         where TBuffer : AsyncBuffer<TMember>
         where TMember : IOperationMember
     {
+        protected override AsyncAdapter<TBuffer, TMember> CreateContractlessAdapter(ContractlessStage<TBuffer> stage)
+        {
+            var adapter = new ContractlessAsyncAdapter<TBuffer, ContractlessStage<TBuffer>, TMember>(stage);
+            return adapter;
+        }
+
+        #region Cancellation Catchs
+
         protected virtual TBuilder InsertCancellationCatch(int index)
         {
             var stage = new CatchCancellationAsyncStage<TBuffer, TMember>();
@@ -29,6 +37,8 @@ namespace Better.Operations.Runtime.Builders
         {
             return InsertCancellationCatch(Adapters.Count);
         }
+
+        #endregion
 
         #region Notifications
 
