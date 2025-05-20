@@ -16,8 +16,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.OnNotificationAsync notification)
         {
-            var notificationAsyncStage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -35,8 +35,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.OnTokenableNotificationAsync notification)
         {
-            var notificationAsyncStage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -54,8 +54,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
         {
-            var notificationAsyncStage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -73,8 +73,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
         {
-            var notificationAsyncStage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualNotificationAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualNotificationAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -96,8 +96,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnFallbackAsync notification)
         {
-            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -115,8 +115,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.OnTokenableFallbackAsync notification)
         {
-            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -134,8 +134,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
         {
-            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -153,8 +153,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
         {
-            var notificationAsyncStage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ContextualFallbackAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualFallbackAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;

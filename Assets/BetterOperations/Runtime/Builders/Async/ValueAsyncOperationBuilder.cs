@@ -17,8 +17,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnNotificationAsync notification)
         {
-            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -36,8 +36,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.OnTokenableNotificationAsync notification)
         {
-            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -55,8 +55,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
         {
-            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -74,8 +74,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertNotification(int index, ValueNotificationAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
         {
-            var notificationAsyncStage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueNotificationAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueNotificationAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -97,8 +97,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnFallbackAsync notification)
         {
-            var notificationAsyncStage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -116,8 +116,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.OnTokenableFallbackAsync notification)
         {
-            var notificationAsyncStage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(notification);
-            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -135,8 +135,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
         {
-            var notificationAsyncStage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
@@ -154,8 +154,8 @@ namespace Better.Operations.Runtime.Builders
 
         protected virtual TBuilder InsertFallback(int index, ValueFallbackAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
         {
-            var notificationAsyncStage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(getter);
-            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(notificationAsyncStage);
+            var stage = new ValueFallbackAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueFallbackAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
