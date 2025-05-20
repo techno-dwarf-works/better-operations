@@ -94,6 +94,48 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Modifies
+
+        protected virtual TBuilder InsertModify(int index, ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify notification)
+        {
+            var notificationSyncStage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ContextualModifySyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify notification)
+        {
+            return InsertModify(0, notification);
+        }
+
+        public TBuilder AppendModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.OnModify notification)
+        {
+            return InsertModify(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ContextualModifySyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            var notificationSyncStage = new ContextualModifySyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ContextualModifySyncStage<TBuffer, TContext, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            return InsertModify(0, getter);
+        }
+
+        public TBuilder AppendModify(ContextualModifySyncStage<TBuffer, TContext, TMember>.GetDelegate getter)
+        {
+            return InsertModify(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class ContextualSyncOperationBuilder<TBuilder, TContext, TMember> : ContextualSyncOperationBuilder<TBuilder, ContextualSyncOperation<TContext, TMember>, ContextualSyncBuffer<TContext, TMember>, TContext, TMember>

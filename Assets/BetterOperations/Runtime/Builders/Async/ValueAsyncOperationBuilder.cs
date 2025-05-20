@@ -172,6 +172,86 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Modifies
+
+        protected virtual TBuilder InsertModify(int index, ValueModifyAsyncStage<TBuffer, TValue, TMember>.OnModifyAsync notification)
+        {
+            var stage = new ValueModifyAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueModifyAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.OnModifyAsync notification)
+        {
+            return InsertModify(0, notification);
+        }
+
+        public TBuilder AppendModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.OnModifyAsync notification)
+        {
+            return InsertModify(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ValueModifyAsyncStage<TBuffer, TValue, TMember>.OnTokenableModifyAsync notification)
+        {
+            var stage = new ValueModifyAsyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ValueModifyAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.OnTokenableModifyAsync notification)
+        {
+            return InsertModify(0, notification);
+        }
+
+        public TBuilder AppendModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.OnTokenableModifyAsync notification)
+        {
+            return InsertModify(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ValueModifyAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
+        {
+            var stage = new ValueModifyAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueModifyAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertModify(0, getter);
+        }
+
+        public TBuilder AppendModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertModify(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ValueModifyAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
+        {
+            var stage = new ValueModifyAsyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ValueModifyAsyncStage<TBuffer, TValue, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertModify(0, getter);
+        }
+
+        public TBuilder AppendModify(ValueModifyAsyncStage<TBuffer, TValue, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertModify(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class ValueAsyncOperationBuilder<TBuilder, TValue, TMember> : ValueAsyncOperationBuilder<TBuilder, ValueAsyncOperation<TValue, TMember>, ValueAsyncBuffer<TValue, TMember>, TValue, TMember>

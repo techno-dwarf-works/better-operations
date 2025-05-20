@@ -171,6 +171,86 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Modifies
+
+        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync notification)
+        {
+            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualModifyAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync notification)
+        {
+            return InsertModify(0, notification);
+        }
+
+        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync notification)
+        {
+            return InsertModify(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync notification)
+        {
+            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(notification);
+            var adapter = new AsyncAdapter<TBuffer, ContextualModifyAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync notification)
+        {
+            return InsertModify(0, notification);
+        }
+
+        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync notification)
+        {
+            return InsertModify(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
+        {
+            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualModifyAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertModify(0, getter);
+        }
+
+        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
+        {
+            return InsertModify(Adapters.Count, getter);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
+        {
+            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(getter);
+            var adapter = new AsyncAdapter<TBuffer, ContextualModifyAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertModify(0, getter);
+        }
+
+        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.GetCancellableMemberDelegate getter)
+        {
+            return InsertModify(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class ContextualAsyncOperationBuilder<TBuilder, TContext, TMember> : ContextualAsyncOperationBuilder<TBuilder, ContextualAsyncOperation<TContext, TMember>, ContextualAsyncBuffer<TContext, TMember>, TContext, TMember>

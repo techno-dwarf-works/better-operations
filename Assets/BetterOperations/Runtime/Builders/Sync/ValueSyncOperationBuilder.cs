@@ -95,6 +95,48 @@ namespace Better.Operations.Runtime.Builders
         }
 
         #endregion
+
+        #region Modifies
+
+        protected virtual TBuilder InsertModify(int index, ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify notification)
+        {
+            var notificationSyncStage = new ValueModifySyncStage<TBuffer, TValue, TMember>(notification);
+            var adapter = new SyncAdapter<TBuffer, ValueModifySyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify notification)
+        {
+            return InsertModify(0, notification);
+        }
+
+        public TBuilder AppendModify(ValueModifySyncStage<TBuffer, TValue, TMember>.OnModify notification)
+        {
+            return InsertModify(Adapters.Count, notification);
+        }
+
+        protected virtual TBuilder InsertModify(int index, ValueModifySyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            var notificationSyncStage = new ValueModifySyncStage<TBuffer, TValue, TMember>(getter);
+            var adapter = new SyncAdapter<TBuffer, ValueModifySyncStage<TBuffer, TValue, TMember>, TMember>(notificationSyncStage);
+            Adapters.Insert(index, adapter);
+
+            return (TBuilder)this;
+        }
+
+        public TBuilder PrependModify(ValueModifySyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            return InsertModify(0, getter);
+        }
+
+        public TBuilder AppendModify(ValueModifySyncStage<TBuffer, TValue, TMember>.GetDelegate getter)
+        {
+            return InsertModify(Adapters.Count, getter);
+        }
+
+        #endregion
     }
 
     public abstract class ValueSyncOperationBuilder<TBuilder, TValue, TMember> : ValueSyncOperationBuilder<TBuilder, ValueSyncOperation<TValue, TMember>, ValueSyncBuffer<TValue, TMember>, TValue, TMember>
