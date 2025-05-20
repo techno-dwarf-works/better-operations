@@ -15,12 +15,10 @@ namespace Better.Operations.Runtime.Stages
             LogType = logType;
         }
 
-        public sealed override bool TryExecute(TBuffer buffer)
+        public sealed override void Execute(TBuffer buffer)
         {
             var message = $"{OriginMessage}\n{nameof(buffer)}:{buffer}";
             Debug.unityLogger.Log(LogType, message);
-
-            return true;
         }
     }
 }
