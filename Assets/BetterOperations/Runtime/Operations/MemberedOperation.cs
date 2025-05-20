@@ -10,7 +10,6 @@ namespace Better.Operations.Runtime
         where TAdapter : MemberedAdapter<TBuffer, TMember>
         where TMember : IOperationMember
     {
-        private TAdapter[] _adapters;
         private HashSet<TMember> _members;
 
         protected IReadOnlyCollection<TMember> Members => _members;
@@ -19,11 +18,6 @@ namespace Better.Operations.Runtime
         protected MemberedOperation()
         {
             _members = new();
-        }
-
-        internal void SetupAdapters(TAdapter[] adapters)
-        {
-            _adapters = adapters;
         }
 
         #region IOperationMemberRegistry
