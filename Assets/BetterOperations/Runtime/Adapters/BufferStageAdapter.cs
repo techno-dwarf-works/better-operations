@@ -2,7 +2,7 @@
 
 namespace Better.Operations.Runtime.Adapters
 {
-    public abstract class BufferAdapter<TBuffer>
+    public abstract class BufferStageAdapter<TBuffer>
         where TBuffer : OperationBuffer
     {
     }

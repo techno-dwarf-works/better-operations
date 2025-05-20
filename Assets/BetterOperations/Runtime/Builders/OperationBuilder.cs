@@ -11,7 +11,7 @@ namespace Better.Operations.Runtime.Builders
         where TBuilder : OperationBuilder<TBuilder, TOperation, TBuffer, TAdapter>, new()
         where TOperation : Operation<TBuffer, TAdapter>, new()
         where TBuffer : OperationBuffer
-        where TAdapter : BufferAdapter<TBuffer>
+        where TAdapter : BufferStageAdapter<TBuffer>
     {
         protected List<TAdapter> Adapters { get; private set; }
         public bool IsMutable { get; private set; }
@@ -97,7 +97,7 @@ namespace Better.Operations.Runtime.Builders
     public abstract class OperationBuilder<TBuilder, TOperation, TAdapter> : OperationBuilder<TBuilder, TOperation, OperationBuffer, TAdapter>
         where TBuilder : OperationBuilder<TBuilder, TOperation, TAdapter>, new()
         where TOperation : Operation<OperationBuffer, TAdapter>, new()
-        where TAdapter : BufferAdapter<OperationBuffer>
+        where TAdapter : BufferStageAdapter<OperationBuffer>
     {
     }
 }
