@@ -50,8 +50,9 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
         public void Test()
         {
             _jumpOperation = ValueAsyncOperationBuilder<Vector3, IJumpOperationMember>.Create()
-                // .AppendNotification(member => member.OnPreJumpAsync)
-                // .AppendNotification(member => member.OnPostJumpAsync)
+                .AppendNotification(member => member.OnPreJumpAsync)
+                .AppendPermissing(ValidateJump)
+                .AppendNotification(member => member.OnPostJumpAsync)
                 .Build();
 
             // var jumpModif = new JumpModif();
@@ -59,6 +60,11 @@ namespace Better.Operations.Runtime.BetterOperations.Runtime
             // var registry = (IOperationMemberRegistry<IOperationModifier>)this;
             // registry.Register(jumpModif);
             // registry.Register(crouchModif);
+        }
+
+        private Task<PermissionFlag> ValidateJump(Vector3 sourceValue, Vector3 modifiedValue)
+        {
+            return default;
         }
 
         private void OnJumpStarted()

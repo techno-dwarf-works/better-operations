@@ -20,18 +20,17 @@ namespace Better.Operations.Runtime.Adapters
         where TStage : AsyncStage<TBuffer, TMember>
         where TMember : IOperationMember
     {
-        public override OperationStage<TBuffer> Stage => RelativeStage;
-        public override ExecuteInstruction ExecuteInstruction => RelativeStage.ExecuteInstruction;
-        public TStage RelativeStage { get; }
+        public override ExecuteInstruction ExecuteInstruction => Stage.ExecuteInstruction;
+        public TStage Stage { get; }
 
         public AsyncAdapter(TStage stage)
         {
-            RelativeStage = stage;
+            Stage = stage;
         }
 
         public override Task<bool> TryExecuteAsync(TBuffer buffer)
         {
-            return RelativeStage.TryExecuteAsync(buffer);
+            return Stage.TryExecuteAsync(buffer);
         }
     }
 }

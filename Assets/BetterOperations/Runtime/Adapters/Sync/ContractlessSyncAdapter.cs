@@ -17,17 +17,16 @@ namespace Better.Operations.Runtime.Adapters
         where TStage : ContractlessStage<TBuffer>
     {
         public override ExecuteInstruction ExecuteInstruction => ExecuteInstruction.Mandatory;
-        public override OperationStage<TBuffer> Stage => RelativeStage;
-        public TStage RelativeStage { get; }
+        public TStage Stage { get; }
 
         public ContractlessSyncAdapter(TStage stage)
         {
-            RelativeStage = stage;
+            Stage = stage;
         }
 
         public override bool TryExecute(TBuffer buffer)
         {
-            RelativeStage.Execute(buffer);
+            Stage.Execute(buffer);
             return true;
         }
     }

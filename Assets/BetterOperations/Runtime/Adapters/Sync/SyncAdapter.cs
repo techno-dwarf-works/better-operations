@@ -19,18 +19,17 @@ namespace Better.Operations.Runtime.Adapters
         where TStage : SyncStage<TBuffer, TMember>
         where TMember : IOperationMember
     {
-        public override OperationStage<TBuffer> Stage => RelativeStage;
-        public override ExecuteInstruction ExecuteInstruction => RelativeStage.ExecuteInstruction;
-        public TStage RelativeStage { get; }
+        public override ExecuteInstruction ExecuteInstruction => Stage.ExecuteInstruction;
+        public TStage Stage { get; }
 
         public SyncAdapter(TStage stage)
         {
-            RelativeStage = stage;
+            Stage = stage;
         }
 
         public override bool TryExecute(TBuffer buffer)
         {
-            return RelativeStage.TryExecute(buffer);
+            return Stage.TryExecute(buffer);
         }
     }
 }

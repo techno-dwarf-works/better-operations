@@ -8,7 +8,7 @@ namespace Better.Operations.Runtime
 {
     public abstract class Operation<TBuffer, TAdapter> : IDisposable
         where TBuffer : OperationBuffer
-        where TAdapter : BufferStageAdapter<TBuffer>
+        where TAdapter : BufferAdapter<TBuffer>
     {
         private List<TBuffer> _executingBuffers;
         private Queue<TBuffer> _scheduledBuffers;
