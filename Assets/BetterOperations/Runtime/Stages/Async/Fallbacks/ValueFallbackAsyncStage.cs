@@ -36,9 +36,9 @@ namespace Better.Operations.Runtime.Stages
         where TValue : struct
         where TMember : IOperationMember
     {
-        public delegate Task OnFallbackAsync(PermissionFlag operationPermission, TValue sourceValue, TValue modifiedValue);
+        public delegate Task OnFallbackAsync(PermissionFlag operationPermission, TValue source, TValue modified);
 
-        public delegate Task OnTokenableFallbackAsync(PermissionFlag operationPermission, TValue sourceValue, TValue modifiedValue, CancellationToken cancellationToken);
+        public delegate Task OnTokenableFallbackAsync(PermissionFlag operationPermission, TValue source, TValue modified, CancellationToken cancellationToken);
 
         public ValueFallbackAsyncStage(OnFallbackAsync continuousSubDelegate) : base(continuousSubDelegate)
         {

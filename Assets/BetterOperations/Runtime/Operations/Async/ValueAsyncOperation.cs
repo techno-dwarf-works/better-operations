@@ -16,9 +16,9 @@ namespace Better.Operations.Runtime
         where TValue : struct
         where TMember : IOperationMember
     {
-        public Task<ValueAsyncBuffer<TValue, TMember>> ExecuteAsync(TValue sourceValue, CancellationToken cancellationToken)
+        public Task<ValueAsyncBuffer<TValue, TMember>> ExecuteAsync(TValue source, CancellationToken cancellationToken)
         {
-            var buffer = new ValueAsyncBuffer<TValue, TMember>(Members, sourceValue, cancellationToken);
+            var buffer = new ValueAsyncBuffer<TValue, TMember>(Members, source, cancellationToken);
             return ExecuteAsync(buffer);
         }
     }

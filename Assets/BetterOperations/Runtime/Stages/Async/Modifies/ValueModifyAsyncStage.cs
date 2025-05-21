@@ -35,9 +35,9 @@ namespace Better.Operations.Runtime.Stages
         where TValue : struct
         where TMember : IOperationMember
     {
-        public delegate Task<TValue> OnModifyAsync(TValue sourceValue, TValue modifiedValue);
+        public delegate Task<TValue> OnModifyAsync(TValue source, TValue modified);
 
-        public delegate Task<TValue> OnTokenableModifyAsync(TValue sourceValue, TValue modifiedValue, CancellationToken cancellationToken);
+        public delegate Task<TValue> OnTokenableModifyAsync(TValue source, TValue modified, CancellationToken cancellationToken);
 
         public ValueModifyAsyncStage(OnModifyAsync continuousSubDelegate) : base(continuousSubDelegate)
         {

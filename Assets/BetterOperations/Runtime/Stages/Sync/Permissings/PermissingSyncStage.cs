@@ -1,5 +1,7 @@
 ﻿using System;
 using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Extensions;
+using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Permissions;
 
@@ -10,12 +12,20 @@ namespace Better.Operations.Runtime.Stages
         where TMember : IOperationMember
         where TDelegate : Delegate
     {
+        public override ExecuteInstruction ExecuteInstruction => ExecuteInstruction.Optional;
+
         protected PermissingSyncStage(TDelegate subDelegate) : base(subDelegate)
         {
         }
 
         protected PermissingSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
         {
+        }
+
+        protected override bool IsAvailable(PermissionFlag permissionFlag)
+        {
+            var isMaxDeny = permissionFlag.IsMaxDeny();
+            return !isMaxDeny;
         }
 
         protected sealed override void Execute(TBuffer buffer, TDelegate subDelegate)

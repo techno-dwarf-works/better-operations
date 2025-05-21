@@ -34,7 +34,7 @@ namespace Better.Operations.Runtime.Extensions
             return false;
         }
 
-        public static bool Unregister<TBuffer, TAdapter, TMember>(this MemberedOperation<TBuffer, TAdapter, TMember> self, IOperationMember member)
+        public static bool TryUnregister<TBuffer, TAdapter, TMember>(this MemberedOperation<TBuffer, TAdapter, TMember> self, IOperationMember member)
             where TBuffer : MemberedBuffer<TMember>
             where TAdapter : MemberedAdapter<TBuffer, TMember>
             where TMember : IOperationMember

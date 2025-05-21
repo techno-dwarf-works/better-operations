@@ -24,7 +24,7 @@ namespace Better.Operations.Runtime.Stages
         where TValue : struct
         where TMember : IOperationMember
     {
-        public delegate TValue OnModify(TValue sourceValue, TValue modifiedValue);
+        public delegate TValue OnModify(TValue source, TValue modified);
 
         public ValueModifySyncStage(OnModify subDelegate) : base(subDelegate)
         {

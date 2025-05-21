@@ -11,10 +11,10 @@ namespace Better.Operations.Runtime.Buffers
         public TValue SourceValue { get; }
         public TValue ModifiedValue { get; set; }
 
-        public ValueAsyncBuffer(IEnumerable<TMember> members, TValue sourceValue, CancellationToken cancellationToken)
+        public ValueAsyncBuffer(IEnumerable<TMember> members, TValue source, CancellationToken cancellationToken)
             : base(members, cancellationToken)
         {
-            SourceValue = sourceValue;
+            SourceValue = source;
             ResetModifiedValue();
         }
 

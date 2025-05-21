@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Better.Operations.Runtime.Buffers;
+using Better.Operations.Runtime.Extensions;
+using Better.Operations.Runtime.Instructions;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Permissions;
 
@@ -13,6 +15,8 @@ namespace Better.Operations.Runtime.Stages
         where TContinuousDelegate : Delegate
         where TCancellableDelegate : Delegate
     {
+        public override ExecuteInstruction ExecuteInstruction => ExecuteInstruction.Optional;
+
         protected PermissingAsyncStage(TContinuousDelegate continuousSubDelegate) : base(continuousSubDelegate)
         {
         }
@@ -27,6 +31,12 @@ namespace Better.Operations.Runtime.Stages
 
         protected PermissingAsyncStage(GetCancellableMemberDelegate cancellableDelegateGetter) : base(cancellableDelegateGetter)
         {
+        }
+
+        protected override bool IsAvailable(PermissionFlag permissionFlag)
+        {
+            var isMaxDeny = permissionFlag.IsMaxDeny();
+            return !isMaxDeny;
         }
 
         protected sealed override async Task ExecuteSubDelegateAsync(TBuffer buffer, TContinuousDelegate subDelegate)

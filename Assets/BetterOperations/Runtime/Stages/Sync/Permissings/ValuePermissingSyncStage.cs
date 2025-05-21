@@ -25,7 +25,7 @@ namespace Better.Operations.Runtime.Stages
         where TValue : struct
         where TMember : IOperationMember
     {
-        public delegate PermissionFlag GetPermissionFlag(TValue sourceValue, TValue modifiedValue);
+        public delegate PermissionFlag GetPermissionFlag(TValue source, TValue modified);
 
         public ValuePermissingSyncStage(GetPermissionFlag subDelegate) : base(subDelegate)
         {

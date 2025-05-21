@@ -10,9 +10,9 @@ namespace Better.Operations.Runtime.Buffers
         public TValue SourceValue { get; }
         public TValue ModifiedValue { get; set; }
 
-        public ValueSyncBuffer(IEnumerable<TMember> members, TValue sourceValue) : base(members)
+        public ValueSyncBuffer(IEnumerable<TMember> members, TValue source) : base(members)
         {
-            SourceValue = sourceValue;
+            SourceValue = source;
             ResetModifiedValue();
         }
 

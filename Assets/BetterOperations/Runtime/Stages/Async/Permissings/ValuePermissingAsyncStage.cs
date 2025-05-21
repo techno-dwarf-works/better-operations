@@ -36,9 +36,9 @@ namespace Better.Operations.Runtime.Stages
         where TValue : struct
         where TMember : IOperationMember
     {
-        public delegate Task<PermissionFlag> GetPermissingFlagAsync(TValue sourceValue, TValue modifiedValue);
+        public delegate Task<PermissionFlag> GetPermissingFlagAsync(TValue source, TValue modified);
 
-        public delegate Task<PermissionFlag> GetPermissingFlagTokenableAsync(TValue sourceValue, TValue modifiedValue, CancellationToken cancellationToken);
+        public delegate Task<PermissionFlag> GetPermissingFlagTokenableAsync(TValue source, TValue modified, CancellationToken cancellationToken);
 
         public ValuePermissingAsyncStage(GetPermissingFlagAsync continuousSubDelegate) : base(continuousSubDelegate)
         {

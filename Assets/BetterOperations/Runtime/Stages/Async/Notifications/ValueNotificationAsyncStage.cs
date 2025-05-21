@@ -35,9 +35,9 @@ namespace Better.Operations.Runtime.Stages
         where TValue : struct
         where TMember : IOperationMember
     {
-        public delegate Task OnNotificationAsync(TValue sourceValue, TValue modifiedValue);
+        public delegate Task OnNotificationAsync(TValue source, TValue modified);
 
-        public delegate Task OnTokenableNotificationAsync(TValue sourceValue, TValue modifiedValue, CancellationToken cancellationToken);
+        public delegate Task OnTokenableNotificationAsync(TValue source, TValue modified, CancellationToken cancellationToken);
 
         public ValueNotificationAsyncStage(OnNotificationAsync continuousSubDelegate) : base(continuousSubDelegate)
         {

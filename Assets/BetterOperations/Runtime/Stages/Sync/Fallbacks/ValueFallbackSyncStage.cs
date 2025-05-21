@@ -25,7 +25,7 @@ namespace Better.Operations.Runtime.Stages
         where TValue : struct
         where TMember : IOperationMember
     {
-        public delegate void OnFallback(PermissionFlag operationPermission, TValue sourceValue, TValue modifiedValue);
+        public delegate void OnFallback(PermissionFlag operationPermission, TValue source, TValue modified);
 
         public ValueFallbackSyncStage(OnFallback subDelegate) : base(subDelegate)
         {
