@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Text;
+using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Permissions;
 
@@ -19,6 +21,13 @@ namespace Better.Operations.Runtime.Buffers
 
             var changed = PermissionFlag == permissionFlag;
             return changed;
+        }
+
+        public override void CollectInfo(ref StringBuilder stringBuilder)
+        {
+            base.CollectInfo(ref stringBuilder);
+
+            stringBuilder.AppendFieldLine(nameof(PermissionFlag), PermissionFlag);
         }
     }
 }

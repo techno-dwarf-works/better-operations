@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading;
+using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Buffers
@@ -26,6 +28,14 @@ namespace Better.Operations.Runtime.Buffers
 
         protected virtual void OnModifiedValueWasReset()
         {
+        }
+
+        public override void CollectInfo(ref StringBuilder stringBuilder)
+        {
+            base.CollectInfo(ref stringBuilder);
+
+            stringBuilder.AppendFieldLine(nameof(SourceValue), SourceValue);
+            stringBuilder.AppendFieldLine(nameof(ModifiedValue), ModifiedValue);
         }
     }
 }

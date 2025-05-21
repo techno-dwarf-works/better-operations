@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text;
 using System.Threading;
+using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Members;
 using Better.Operations.Runtime.Permissions;
 
@@ -36,6 +38,14 @@ namespace Better.Operations.Runtime.Buffers
                 var permissionFlag = PermissionFlag.Create(PermissionValues.MaxDeny);
                 SetPermissionFlag(permissionFlag);
             }
+        }
+
+        public override void CollectInfo(ref StringBuilder stringBuilder)
+        {
+            base.CollectInfo(ref stringBuilder);
+
+            stringBuilder.AppendFieldLine(nameof(PermissionFlag), PermissionFlag);
+            stringBuilder.AppendFieldLine(nameof(IsCancellationRequested), IsCancellationRequested);
         }
     }
 }

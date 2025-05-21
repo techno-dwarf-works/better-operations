@@ -33,6 +33,12 @@ namespace Better.Operations.Runtime.Permissions
             return Value.GetHashCode();
         }
 
+        public override string ToString()
+        {
+            var status = this.ToStatusString();
+            return status;
+        }
+
         public static bool operator <(PermissionFlag a, PermissionFlag b) => a.Value < b.Value;
         public static bool operator >(PermissionFlag a, PermissionFlag b) => a.Value > b.Value;
         public static bool operator <=(PermissionFlag a, PermissionFlag b) => a.Value <= b.Value;

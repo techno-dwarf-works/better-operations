@@ -179,5 +179,37 @@ namespace Better.Operations.Runtime.Extensions
         {
             return self.Value == PermissionValues.MaxAllow;
         }
+
+        public static string ToStatusString(this PermissionFlag self)
+        {
+            if (self.IsNeutral())
+            {
+                return nameof(IsNeutral);
+            }
+
+            if (self.IsMaxDeny())
+            {
+                return nameof(IsMaxDeny);
+            }
+
+            if (self.IsDeny())
+            {
+                var denyStatus = $"{nameof(IsDeny)}({self.Value})";
+                return denyStatus;
+            }
+
+            if (self.IsMaxAllow())
+            {
+                return nameof(IsMaxAllow);
+            }
+
+            if (self.IsAllow())
+            {
+                var allowStatus = $"{nameof(IsAllow)}({self.Value})";
+                return allowStatus;
+            }
+
+            return self.Value.ToString();
+        }
     }
 }

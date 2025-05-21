@@ -42,7 +42,7 @@ namespace Better.Operations.Runtime.Builders
 
         public TBuilder AppendLog(string message, LogType logType = LogType.Log)
         {
-            return InsertLog(0, message, logType);
+            return InsertLog(Adapters.Count, message, logType);
         }
 
         #endregion

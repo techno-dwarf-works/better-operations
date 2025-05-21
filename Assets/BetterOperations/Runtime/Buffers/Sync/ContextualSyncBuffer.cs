@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Text;
+using Better.Commons.Runtime.Extensions;
 using Better.Operations.Runtime.Members;
 
 namespace Better.Operations.Runtime.Buffers
@@ -11,6 +13,13 @@ namespace Better.Operations.Runtime.Buffers
         public ContextualSyncBuffer(IEnumerable<TMember> members, TContext context) : base(members)
         {
             Context = context;
+        }
+
+        public override void CollectInfo(ref StringBuilder stringBuilder)
+        {
+            base.CollectInfo(ref stringBuilder);
+
+            stringBuilder.AppendFieldLine(nameof(Context), Context);
         }
     }
 }
