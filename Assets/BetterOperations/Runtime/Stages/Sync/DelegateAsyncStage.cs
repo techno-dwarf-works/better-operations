@@ -16,11 +16,11 @@ namespace Better.Operations.Runtime.Stages
         }
 
         private TDelegate _subDelegate;
-        private GetDelegate _delegateGetter;
+        private GetMemberDelegate _delegateGetter;
 
         protected ExecuteDelegateMode ExecuteMode { get; }
 
-        public delegate TDelegate GetDelegate(TMember member);
+        public delegate TDelegate GetMemberDelegate(TMember member);
 
         private DelegateSyncStage(ExecuteDelegateMode executeMode)
         {
@@ -32,7 +32,7 @@ namespace Better.Operations.Runtime.Stages
             _subDelegate = subDelegate;
         }
 
-        protected DelegateSyncStage(GetDelegate delegateGetter) : this(ExecuteDelegateMode.MemberDelegate)
+        protected DelegateSyncStage(GetMemberDelegate delegateGetter) : this(ExecuteDelegateMode.MemberDelegate)
         {
             _delegateGetter = delegateGetter;
         }

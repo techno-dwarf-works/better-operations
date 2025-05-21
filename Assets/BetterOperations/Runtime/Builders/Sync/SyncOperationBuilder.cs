@@ -38,7 +38,7 @@ namespace Better.Operations.Runtime.Builders
             return InsertNotification(Adapters.Count, notification);
         }
 
-        protected virtual TBuilder InsertNotification(int index, NotificationSyncStage<TBuffer, TMember>.GetDelegate getter)
+        protected virtual TBuilder InsertNotification(int index, NotificationSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             var stage = new NotificationSyncStage<TBuffer, TMember>(getter);
             var adapter = new SyncAdapter<TBuffer, NotificationSyncStage<TBuffer, TMember>, TMember>(stage);
@@ -47,12 +47,12 @@ namespace Better.Operations.Runtime.Builders
             return (TBuilder)this;
         }
 
-        public TBuilder PrependNotification(NotificationSyncStage<TBuffer, TMember>.GetDelegate getter)
+        public TBuilder PrependNotification(NotificationSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             return InsertNotification(0, getter);
         }
 
-        public TBuilder AppendNotification(NotificationSyncStage<TBuffer, TMember>.GetDelegate getter)
+        public TBuilder AppendNotification(NotificationSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             return InsertNotification(Adapters.Count, getter);
         }
@@ -80,7 +80,7 @@ namespace Better.Operations.Runtime.Builders
             return InsertFallback(Adapters.Count, fallback);
         }
 
-        protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
+        protected virtual TBuilder InsertFallback(int index, FallbackSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             var stage = new FallbackSyncStage<TBuffer, TMember>(getter);
             var adapter = new SyncAdapter<TBuffer, FallbackSyncStage<TBuffer, TMember>, TMember>(stage);
@@ -89,12 +89,12 @@ namespace Better.Operations.Runtime.Builders
             return (TBuilder)this;
         }
 
-        public TBuilder PrependFallback(FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
+        public TBuilder PrependFallback(FallbackSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             return InsertFallback(0, getter);
         }
 
-        public TBuilder AppendFallback(FallbackSyncStage<TBuffer, TMember>.GetDelegate getter)
+        public TBuilder AppendFallback(FallbackSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             return InsertFallback(Adapters.Count, getter);
         }
@@ -122,7 +122,7 @@ namespace Better.Operations.Runtime.Builders
             return InsertPermissing(Adapters.Count, getter);
         }
 
-        protected virtual TBuilder InsertPermissing(int index, PermissingSyncStage<TBuffer, TMember>.GetDelegate getter)
+        protected virtual TBuilder InsertPermissing(int index, PermissingSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             var stage = new PermissingSyncStage<TBuffer, TMember>(getter);
             var adapter = new SyncAdapter<TBuffer, PermissingSyncStage<TBuffer, TMember>, TMember>(stage);
@@ -131,12 +131,12 @@ namespace Better.Operations.Runtime.Builders
             return (TBuilder)this;
         }
 
-        public TBuilder PrependPermissing(PermissingSyncStage<TBuffer, TMember>.GetDelegate getter)
+        public TBuilder PrependPermissing(PermissingSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             return InsertPermissing(0, getter);
         }
 
-        public TBuilder AppendPermissing(PermissingSyncStage<TBuffer, TMember>.GetDelegate getter)
+        public TBuilder AppendPermissing(PermissingSyncStage<TBuffer, TMember>.GetMemberDelegate getter)
         {
             return InsertPermissing(Adapters.Count, getter);
         }
