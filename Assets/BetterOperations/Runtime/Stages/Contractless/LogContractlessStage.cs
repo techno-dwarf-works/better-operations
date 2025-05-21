@@ -1,4 +1,6 @@
-﻿using Better.Operations.Runtime.Buffers;
+﻿using System.Text;
+using Better.Commons.Runtime.Extensions;
+using Better.Operations.Runtime.Buffers;
 using UnityEngine;
 
 namespace Better.Operations.Runtime.Stages
@@ -17,8 +19,17 @@ namespace Better.Operations.Runtime.Stages
 
         public sealed override void Execute(TBuffer buffer)
         {
-            var message = $"{OriginMessage}\nWith {nameof(buffer)}:{buffer}";
+            var message = GetMessage(buffer);
             Debug.unityLogger.Log(LogType, message);
+        }
+
+        protected virtual string GetMessage(TBuffer buffer)
+        {
+            var stringBuilder = new StringBuilder()
+                .AppendLine($"{OriginMessage};")
+                .AppendFieldLine(nameof(OperationBuffer), buffer);
+
+            return stringBuilder.ToString();
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Text;
-using Better.Commons.Runtime.Extensions;
+﻿using System.Text;
 
 namespace Better.Operations.Runtime.Buffers
 {
@@ -9,7 +7,7 @@ namespace Better.Operations.Runtime.Buffers
         public virtual void CollectInfo(ref StringBuilder stringBuilder)
         {
             var typeName = GetType().Name;
-            stringBuilder.AppendFieldLine(nameof(Type), typeName);
+            stringBuilder.AppendLine(typeName);
         }
 
         public override string ToString()

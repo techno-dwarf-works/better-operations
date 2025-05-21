@@ -50,6 +50,7 @@ namespace Tests
                 .AppendNotification(OnApplyTransaction)
                 .AppendNotification(member => member.OnApplyingCompleted)
                 .AppendNotification(OnAppliedTransaction)
+                .AppendLog("Finally Applying")
                 .Build();
         }
 
