@@ -13,7 +13,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        protected ContextualModifySyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        protected ContextualModifySyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
     }
@@ -28,7 +28,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        public ContextualModifySyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        public ContextualModifySyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
 

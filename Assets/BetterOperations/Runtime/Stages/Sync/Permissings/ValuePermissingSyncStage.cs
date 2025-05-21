@@ -15,7 +15,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        protected ValuePermissingSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        protected ValuePermissingSyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
     }
@@ -31,7 +31,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        public ValuePermissingSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        public ValuePermissingSyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
 

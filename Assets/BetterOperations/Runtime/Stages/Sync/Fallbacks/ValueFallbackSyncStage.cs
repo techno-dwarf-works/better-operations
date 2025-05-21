@@ -15,7 +15,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        protected ValueFallbackSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        protected ValueFallbackSyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
     }
@@ -31,7 +31,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        public ValueFallbackSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        public ValueFallbackSyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
 

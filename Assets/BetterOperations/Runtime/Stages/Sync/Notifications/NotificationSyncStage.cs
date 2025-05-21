@@ -13,7 +13,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        protected NotificationSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        protected NotificationSyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
     }
@@ -28,7 +28,7 @@ namespace Better.Operations.Runtime.Stages
         {
         }
 
-        public NotificationSyncStage(GetDelegate delegateGetter) : base(delegateGetter)
+        public NotificationSyncStage(GetMemberDelegate delegateGetter) : base(delegateGetter)
         {
         }
 
