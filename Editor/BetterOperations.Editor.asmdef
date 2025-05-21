@@ -1,0 +1,20 @@
+{
+    "name": "BetterOperations.Editor",
+    "rootNamespace": "Better.Operations.EditorAddons",
+    "references": [
+        "GUID:01df13aca8d01e24a911bcc3e8277031",
+        "GUID:6adbd2a12d24f5d429f7ea1b1086e835",
+        "GUID:e584f10ab04dbba46b1639812aae7dd4"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
