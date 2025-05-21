@@ -141,9 +141,9 @@ namespace Better.Operations.Runtime.Builders
             return InsertFallback(Adapters.Count, fallback);
         }
 
-        protected virtual TBuilder InsertFallback(int index, FallbackAsyncStage<TBuffer, TMember>.OnTokenableFallbackAsync notification)
+        protected virtual TBuilder InsertFallback(int index, FallbackAsyncStage<TBuffer, TMember>.OnTokenableFallbackAsync fallback)
         {
-            var stage = new FallbackAsyncStage<TBuffer, TMember>(notification);
+            var stage = new FallbackAsyncStage<TBuffer, TMember>(fallback);
             var adapter = new AsyncAdapter<TBuffer, FallbackAsyncStage<TBuffer, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
