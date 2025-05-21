@@ -221,9 +221,9 @@ namespace Better.Operations.Runtime.Builders
             return InsertPermissing(Adapters.Count, getter);
         }
 
-        protected virtual TBuilder InsertPermissing(int index, PermissingAsyncStage<TBuffer, TMember>.GetPermissingFlagTokenableAsync notification)
+        protected virtual TBuilder InsertPermissing(int index, PermissingAsyncStage<TBuffer, TMember>.GetPermissingFlagTokenableAsync getter)
         {
-            var stage = new PermissingAsyncStage<TBuffer, TMember>(notification);
+            var stage = new PermissingAsyncStage<TBuffer, TMember>(getter);
             var adapter = new AsyncAdapter<TBuffer, PermissingAsyncStage<TBuffer, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
