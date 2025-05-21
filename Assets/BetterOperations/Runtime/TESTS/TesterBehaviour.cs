@@ -16,6 +16,7 @@ namespace Tests
             _vitalityHandler.Initialize();
             _vitalityHandler.TransactionApplied += OnTransactionApplied;
             _vitalityHandler.TransactionFailed += OnTransactionFailed;
+            _vitalityHandler.Incapacitated += OnIncapacitated;
         }
 
         private void Update()
@@ -51,12 +52,19 @@ namespace Tests
             Debug.Log(message);
         }
 
+        private void OnIncapacitated(VitalityHandler vitalityHandler)
+        {
+            var message = $"Tester.{nameof(OnIncapacitated)}; {nameof(vitalityHandler.CurrentPoints)}: {vitalityHandler.CurrentPoints};";
+
+            Debug.Log(message);
+        }
+
         private void ApplyDamage()
         {
             var startedMessage = $"Tester.{nameof(ApplyDamage)} STARTED; {nameof(_vitalityHandler.CurrentPoints)}: {_vitalityHandler.CurrentPoints}; {nameof(_transactionInfo)} = {_transactionInfo}";
             Debug.Log(startedMessage);
 
-            _vitalityHandler.ApplyTransaction(_transactionInfo);
+            _vitalityHandler.TryApplyTransaction(_transactionInfo);
 
             var finishedMessage = $"Tester.{nameof(ApplyDamage)} FINISHED; {nameof(_vitalityHandler.CurrentPoints)}: {_vitalityHandler.CurrentPoints}; {nameof(_transactionInfo)} = {_transactionInfo}";
             Debug.Log(finishedMessage);
@@ -66,6 +74,7 @@ namespace Tests
         {
             _vitalityHandler.TransactionApplied -= OnTransactionApplied;
             _vitalityHandler.TransactionFailed -= OnTransactionFailed;
+            _vitalityHandler.Incapacitated -= OnIncapacitated;
         }
     }
 }

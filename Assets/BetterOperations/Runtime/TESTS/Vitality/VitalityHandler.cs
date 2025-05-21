@@ -15,6 +15,7 @@ namespace Tests
 
         public event Action<VitalityHandler, VitalityTransactionInfo> TransactionApplied;
         public event Action<VitalityHandler, VitalityTransactionInfo> TransactionFailed;
+        public event Action<VitalityHandler> Incapacitated;
 
         [SerializeField] private float _currentPoints;
 
@@ -22,6 +23,7 @@ namespace Tests
         [SerializeField] private float _maxPoints;
 
         private ValueSyncOperation<VitalityTransactionInfo, IApplyingVitalityModifier> _applyingOperation;
+        private SyncOperation<IIncapacitingVitalityModifier> _incapacitateOperation;
 
         public float CurrentPoints => _currentPoints;
         public float MaxPoints => _maxPoints;
@@ -34,6 +36,7 @@ namespace Tests
         {
             _currentPoints = MaxPoints;
             InitializeApplyingOperation();
+            InitializeIncapacitatingOperation();
         }
 
         private void InitializeApplyingOperation()
@@ -50,6 +53,18 @@ namespace Tests
                 .Build();
         }
 
+        private void InitializeIncapacitatingOperation()
+        {
+            _incapacitateOperation = SyncOperationBuilder<IIncapacitingVitalityModifier>.Create()
+                .AppendPermissing(GetIncapacitatingPermission)
+                .AppendPermissing(member => member.GetIncapacitatingPermission)
+                .AppendFallback(member => member.OnIncapacitatingFailed)
+                .AppendNotification(OnIncapacitate)
+                .AppendNotification(member => member.OnIncapacitatingCompleted)
+                .AppendNotification(OnIncapacitated)
+                .Build();
+        }
+
         #endregion
 
         #region Modifiers
@@ -60,22 +75,30 @@ namespace Tests
             Debug.Log(message);
 
             _applyingOperation.TryRegister(modifier);
+            _incapacitateOperation.TryRegister(modifier);
         }
 
         public void Unregister(Modifier modifier)
         {
             var message = $"Vitality.{nameof(Unregister)}; {nameof(modifier)}: {modifier.name};";
             Debug.Log(message);
-            
+
             _applyingOperation.TryUnregister(modifier);
+            _incapacitateOperation.TryUnregister(modifier);
         }
 
         #endregion
 
-        public bool ApplyTransaction(VitalityTransactionInfo transactionInfo)
+        public bool TryApplyTransaction(VitalityTransactionInfo transactionInfo)
         {
             var applyingResult = _applyingOperation.Execute(transactionInfo);
             return applyingResult.PermissionFlag.IsAllow();
+        }
+
+        public bool TryIncapacitate()
+        {
+            var incapacitateResult = _incapacitateOperation.Execute();
+            return incapacitateResult.PermissionFlag.IsAllow();
         }
 
         private PermissionFlag GetApplyingPermission(VitalityTransactionInfo source, VitalityTransactionInfo modified)
@@ -109,11 +132,33 @@ namespace Tests
         private void OnAppliedTransaction(VitalityTransactionInfo source, VitalityTransactionInfo modified)
         {
             TransactionApplied?.Invoke(this, modified);
+            TryIncapacitate();
         }
 
         private void OnFailedTransaction(PermissionFlag permission, VitalityTransactionInfo source, VitalityTransactionInfo modified)
         {
             TransactionFailed?.Invoke(this, modified);
+        }
+
+        private PermissionFlag GetIncapacitatingPermission()
+        {
+            if (IsCapable)
+            {
+                var permissionFlag = PermissionFlag.Create(PermissionValues.MaxDeny);
+                return permissionFlag;
+            }
+
+            return default;
+        }
+
+        private void OnIncapacitate()
+        {
+            _currentPoints = MinPoints;
+        }
+
+        private void OnIncapacitated()
+        {
+            Incapacitated?.Invoke(this);
         }
     }
 }

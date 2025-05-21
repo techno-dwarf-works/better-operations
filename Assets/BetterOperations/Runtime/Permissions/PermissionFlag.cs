@@ -1,5 +1,6 @@
 ﻿using System;
 using Better.Commons.Runtime.Utility;
+using Better.Operations.Runtime.Extensions;
 
 namespace Better.Operations.Runtime.Permissions
 {
@@ -42,6 +43,16 @@ namespace Better.Operations.Runtime.Permissions
         public static PermissionFlag MostSignificant(PermissionFlag a, PermissionFlag b)
         {
             if (a.Value == b.Value)
+            {
+                return a;
+            }
+
+            if (a.IsNeutral())
+            {
+                return b;
+            }
+
+            if (b.IsNeutral())
             {
                 return a;
             }
