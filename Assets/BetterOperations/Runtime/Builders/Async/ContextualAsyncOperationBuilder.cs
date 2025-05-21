@@ -254,42 +254,42 @@ namespace Better.Operations.Runtime.Builders
 
         #region Modifies
 
-        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync notification)
+        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync modify)
         {
-            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(notification);
+            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(modify);
             var adapter = new AsyncAdapter<TBuffer, ContextualModifyAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync notification)
+        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync modify)
         {
-            return InsertModify(0, notification);
+            return InsertModify(0, modify);
         }
 
-        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync notification)
+        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnModifyAsync modify)
         {
-            return InsertModify(Adapters.Count, notification);
+            return InsertModify(Adapters.Count, modify);
         }
 
-        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync notification)
+        protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync modify)
         {
-            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(notification);
+            var stage = new ContextualModifyAsyncStage<TBuffer, TContext, TMember>(modify);
             var adapter = new AsyncAdapter<TBuffer, ContextualModifyAsyncStage<TBuffer, TContext, TMember>, TMember>(stage);
             Adapters.Insert(index, adapter);
 
             return (TBuilder)this;
         }
 
-        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync notification)
+        public TBuilder PrependModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync modify)
         {
-            return InsertModify(0, notification);
+            return InsertModify(0, modify);
         }
 
-        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync notification)
+        public TBuilder AppendModify(ContextualModifyAsyncStage<TBuffer, TContext, TMember>.OnTokenableModifyAsync modify)
         {
-            return InsertModify(Adapters.Count, notification);
+            return InsertModify(Adapters.Count, modify);
         }
 
         protected virtual TBuilder InsertModify(int index, ContextualModifyAsyncStage<TBuffer, TContext, TMember>.GetContinuousMemberDelegate getter)
